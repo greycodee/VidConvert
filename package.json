@@ -1,0 +1,29 @@
+{
+  "name": "m3u8-download",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ffmpeg/core": "^0.11.0",
+    "@ffmpeg/ffmpeg": "^0.11.6",
+    "buffer": "^6.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "eslint": "^8.43.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.3.5",
+    "vite": "^4.3.9"
+  }
+}
