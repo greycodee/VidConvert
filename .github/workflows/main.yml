@@ -27,6 +27,21 @@ jobs:
         with:
           # Upload entire repository
           path: './dist'
+      - name: Add id-token: write permission to GITHUB_TOKEN
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { Octokit } = require("@octokit/core");
+            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+            const response = await octokit.request("PUT /app/installations/{installation_id}/token", {
+              installation_id: process.env.GITHUB_APP_INSTALLATION_ID,
+              permissions: {
+                id_token: "write"
+              }
+            });
+            console.log(response.data.token);
+        env:
+          GITHUB_APP_INSTALLATION_ID: ${{ env.GITHUB_APP_INSTALLATION_ID }}
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
