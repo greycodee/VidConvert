@@ -13,29 +13,33 @@ function App() {
   const [convertedFile, setConvertedFile] = useState(null);
 
   const [convertBtnDisEnable, setConvertDisBtnEnable] = useState(false);
-  const [stopBtnDisEnable, setStopBtnDisEnable] = useState(true);
+  // const [stopBtnDisEnable, setStopBtnDisEnable] = useState(true);
   const [downLoadBtnDisEnable, setDownLoadBtnDisEnable] = useState(true);
 
   const [log, setLog] = useState('');
   const logRef = useRef(null);
 
   useEffect(() => {
+    const loadFFmpeg = async () => {
+      await ffmpeg.load();
+      // `ffmpeg.wasm` 文件已经加载完成，可以在这里使用 `ffmpeg`
+      console.log('ffmpeg.wasm has been loaded')
+    };
+    loadFFmpeg();
+  }, []);
+
+  useEffect(() => {
     // Set the log element to the ref
     logRef.current = document.getElementById('log');
   }, []);
 
-
-  const stopConvert = async () => {
-    await ffmpeg.exit();
-  }
-
   const convertFile = async () => {
     try {
       setConvertDisBtnEnable(true);
-      setStopBtnDisEnable(false);
+      // setStopBtnDisEnable(false);
       var keyFileFlag = false;
       // Load FFmpeg
-      await ffmpeg.load();
+      // await ffmpeg.load();
 
       // Read the input m3u8 file
       const m3u8Data = await fetchFile(m3u8File);
@@ -90,7 +94,7 @@ function App() {
     } catch (error) {
       setDownLoadBtnDisEnable(true);
     }finally{
-      setStopBtnDisEnable(true);
+      // setStopBtnDisEnable(true);
       setConvertDisBtnEnable(false);
       await ffmpeg.exit();
     }
@@ -132,7 +136,7 @@ function App() {
 
       <div className='btn'>
         <button onClick={convertFile} disabled={convertBtnDisEnable}>Convert</button>
-        <button onClick={stopConvert} disabled={stopBtnDisEnable}>Stop</button>
+        {/* <button onClick={stopConvert} disabled={stopBtnDisEnable}>Stop</button> */}
         <button onClick={handleDownload} disabled={downLoadBtnDisEnable}>Download</button>
       </div>
       <div className='logBox'>
