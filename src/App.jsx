@@ -95,8 +95,7 @@ function App() {
       setDownLoadBtnDisEnable(true);
     }finally{
       // setStopBtnDisEnable(true);
-      setConvertDisBtnEnable(false);
-      await ffmpeg.exit();
+      // setConvertDisBtnEnable(false);
     }
   };
 
