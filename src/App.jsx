@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 
+import { parseM3u8File } from './util/M3u8Utils';
+
 import './App.css'
 
 const ffmpeg = createFFmpeg({ log: true });
@@ -10,6 +12,10 @@ function App() {
   const [tsFiles, setTsFiles] = useState([]);
   const [convertedFile, setConvertedFile] = useState(null);
 
+  const [convertBtnDisEnable, setConvertDisBtnEnable] = useState(false);
+  const [stopBtnDisEnable, setStopBtnDisEnable] = useState(true);
+  const [downLoadBtnDisEnable, setDownLoadBtnDisEnable] = useState(true);
+
   const [log, setLog] = useState('');
   const logRef = useRef(null);
 
@@ -18,51 +24,76 @@ function App() {
     logRef.current = document.getElementById('log');
   }, []);
 
+
+  const stopConvert = async () => {
+    await ffmpeg.exit();
+  }
+
   const convertFile = async () => {
-    // Load FFmpeg
-    await ffmpeg.load();
+    try {
+      setConvertDisBtnEnable(true);
+      setStopBtnDisEnable(false);
+      var keyFileFlag = false;
+      // Load FFmpeg
+      await ffmpeg.load();
 
-    // Read the input m3u8 file
-    const m3u8Data = await fetchFile(m3u8File);
-    const m3u8String = new TextDecoder('utf-8').decode(m3u8Data); // 将 m3u8Data 转换为字符串类型
-    console.log(m3u8String);
-    var tsCount = -1;
-    const updatedM3u8Data = m3u8String.replace(/(.*\.ts)/g, () => {
-      tsCount++;
-      return `input${tsCount}.ts`;
-    });
-    console.log(updatedM3u8Data);
-    ffmpeg.FS('writeFile', 'input.m3u8', updatedM3u8Data);
+      // Read the input m3u8 file
+      const m3u8Data = await fetchFile(m3u8File);
+      const m3u8String = new TextDecoder('utf-8').decode(m3u8Data); // 将 m3u8Data 转换为字符串类型
+      const updatedM3u8Data = parseM3u8File(m3u8String);
+      ffmpeg.FS('writeFile', 'input.m3u8', updatedM3u8Data);
 
-    // Read the input ts files
-    for (let i = 0; i < tsFiles.length; i++) {
-      const tsData = await fetchFile(tsFiles[i]);
-      ffmpeg.FS('writeFile', `input${i}.ts`, tsData);
+      // Read the input ts files
+      for (let i = 0; i < tsFiles.length; i++) {
+        const fileName = tsFiles[i].name;
+        const tsData = await fetchFile(tsFiles[i]);
+        if (fileName.includes('key')) {
+          keyFileFlag = true;
+          console.log("keyFileFlag1:" + keyFileFlag);
+          ffmpeg.FS('writeFile', `key`, tsData);
+        } else {
+          ffmpeg.FS('writeFile', `input${i}.ts`, tsData);
+        }
+
+      }
+
+      // Set the log callback
+      ffmpeg.setLogger(({ type, message }) => {
+        setLog((prevLog) => prevLog + `[${type}] ${message}\n`);
+        logRef.current.scrollTop = logRef.current.scrollHeight;
+      });
+
+
+      // Run FFmpeg to convert the files
+      await ffmpeg.run('-allowed_extensions', 'ALL', '-i', 'input.m3u8', '-c', 'copy', 'output.mp4');
+
+      // Read the output file
+      const outputData = ffmpeg.FS('readFile', 'output.mp4');
+      const outputBlob = new Blob([outputData.buffer], { type: 'video/mp4' });
+
+      // Set the converted file for download
+      setConvertedFile(outputBlob);
+      setDownLoadBtnDisEnable(false);
+
+      // Cleanup
+      ffmpeg.FS('unlink', 'input.m3u8');
+      var tsFilesSize = tsFiles.length;
+      console.log("keyFileFlag2:" + keyFileFlag);
+      if (keyFileFlag) {
+        tsFilesSize = tsFilesSize - 1;
+        ffmpeg.FS('unlink', 'key');
+      }
+      for (let i = 0; i < tsFilesSize; i++) {
+        ffmpeg.FS('unlink', `input${i}.ts`);
+      }
+      ffmpeg.FS('unlink', 'output.mp4');
+    } catch (error) {
+      setDownLoadBtnDisEnable(true);
+    }finally{
+      setStopBtnDisEnable(true);
+      setConvertDisBtnEnable(false);
+      await ffmpeg.exit();
     }
-
-    // Set the log callback
-    ffmpeg.setLogger(({ type, message }) => {
-      setLog((prevLog) => prevLog + `[${type}] ${message}\n`);
-      logRef.current.scrollTop = logRef.current.scrollHeight;
-    });
-    
-
-    // Run FFmpeg to convert the files
-    await ffmpeg.run('-allowed_extensions', 'ALL', '-i', 'input.m3u8', '-c', 'copy', 'output.mp4');
-
-    // Read the output file
-    const outputData = ffmpeg.FS('readFile', 'output.mp4');
-    const outputBlob = new Blob([outputData.buffer], { type: 'video/mp4' });
-
-    // Set the converted file for download
-    setConvertedFile(outputBlob);
-
-    // Cleanup
-    ffmpeg.FS('unlink', 'input.m3u8');
-    for (let i = 0; i < tsFiles.length; i++) {
-      ffmpeg.FS('unlink', `input${i}.ts`);
-    }
-    ffmpeg.FS('unlink', 'output.mp4');
   };
 
   const handleM3u8FileChange = (event) => {
@@ -83,26 +114,33 @@ function App() {
   };
 
   return (
-    <>
+    <div className='m3u8ConvertBox'>
+      <div className='title'>m3u8 TO mp4</div>
       <div className='m3u8File'>
         <label htmlFor="m3u8File">Select m3u8 file:</label>
         <input type="file" id="m3u8File" accept=".m3u8" onChange={handleM3u8FileChange} />
       </div>
       <div className='tsFiles'>
-        <label htmlFor="tsFiles">Select ts files:</label>
-        <input type="file" id="tsFiles" accept=".ts" onChange={handleTsFilesChange} multiple />
-        <ul>
+        <label htmlFor="tsFiles">Select ts and key files:</label>
+        <input type="file" id="tsFiles" onChange={handleTsFilesChange} multiple />
+        {/* <ul>
           {tsFiles.map((file, index) => (
             <li key={index}>{file.name}</li>
           ))}
-        </ul>
+        </ul> */}
       </div>
-      <button onClick={convertFile}>Convert</button>
-      {convertedFile && <button onClick={handleDownload}>Download</button>}
-      <pre id="log" style={{ backgroundColor: 'black', color: 'white', height: '200px', width:'500px', overflow: 'auto' }}>
-        {log}
-      </pre>
-    </>
+
+      <div className='btn'>
+        <button onClick={convertFile} disabled={convertBtnDisEnable}>Convert</button>
+        <button onClick={stopConvert} disabled={stopBtnDisEnable}>Stop</button>
+        <button onClick={handleDownload} disabled={downLoadBtnDisEnable}>Download</button>
+      </div>
+      <div className='logBox'>
+        <pre id="log" style={{ backgroundColor: 'black', color: 'white', height: '500px', width: '100%', overflow: 'auto' }}>
+          {log}
+        </pre>
+      </div>
+    </div>
   );
 }
 

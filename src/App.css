@@ -4,7 +4,33 @@
   padding: 2rem;
   text-align: left;
 }
+.title{
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
 
-.m3u8File{
-  width: 400px;
+.m3u8ConvertBox{
+  border: 1px solid #ccc;
+  height: 100%;
+  width: 70vw;
+}
+
+.m3u8ConvertBox div{
+  margin: 10px;
+}
+
+.btn{
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  
+}
+
+/**
+  * + * 选择器用于选择 .btn 容器中的除第一个子元素以外的所有子元素。
+*/
+.btn > * + * {
+  margin-left: 10px;
 }
