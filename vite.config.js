@@ -5,6 +5,7 @@ import crossOriginIsolation from 'vite-plugin-cross-origin-isolation'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/VidConvert/',
   plugins: [
     react(),
     crossOriginIsolation()
