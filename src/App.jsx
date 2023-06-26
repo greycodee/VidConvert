@@ -37,7 +37,7 @@ function App() {
     try {
       setConvertDisBtnEnable(true);
       // setStopBtnDisEnable(false);
-      var keyFileFlag = false;
+      let keyFileFlag = false;
       // Load FFmpeg
       // await ffmpeg.load();
 
@@ -81,7 +81,7 @@ function App() {
 
       // Cleanup
       ffmpeg.FS('unlink', 'input.m3u8');
-      var tsFilesSize = tsFiles.length;
+      let tsFilesSize = tsFiles.length;
       console.log("keyFileFlag2:" + keyFileFlag);
       if (keyFileFlag) {
         tsFilesSize = tsFilesSize - 1;
