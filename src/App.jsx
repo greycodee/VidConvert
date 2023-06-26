@@ -1,38 +1,37 @@
 import { useState, useEffect, useRef } from 'react';
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
-
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Typography from '@mui/material/Typography';
+import { useSnackbar } from 'notistack';
 import { parseM3u8File } from './util/M3u8Utils';
-
-import './App.css'
 
 const ffmpeg = createFFmpeg({ log: true });
 
 function App() {
+
+  const { enqueueSnackbar } = useSnackbar();
   const [m3u8File, setM3u8File] = useState(null);
   const [tsFiles, setTsFiles] = useState([]);
   const [convertedFile, setConvertedFile] = useState(null);
-
   const [convertBtnDisEnable, setConvertDisBtnEnable] = useState(false);
-  // const [stopBtnDisEnable, setStopBtnDisEnable] = useState(true);
   const [downLoadBtnDisEnable, setDownLoadBtnDisEnable] = useState(true);
-
   const [log, setLog] = useState('');
   const logRef = useRef(null);
 
   useEffect(() => {
     const loadFFmpeg = async () => {
-      console.log(crossOriginIsolated);
-      if (crossOriginIsolated) {
-        await ffmpeg.load();   // Post SharedArrayBuffer
-        console.log('ffmpeg.wasm has been loaded')
-      } else {
-        alert("not support your browser version!")
-      }
-      //await ffmpeg.load();
-      // `ffmpeg.wasm` 文件已经加载完成，可以在这里使用 `ffmpeg`
-      //console.log('ffmpeg.wasm has been loaded')
-    };
-    loadFFmpeg();
+      await ffmpeg.load();
+      console.log('ffmpeg.wasm has been loaded')
+    }
+    // eslint-disable-next-line no-undef
+    if (crossOriginIsolated) {
+      loadFFmpeg();
+    } else {
+      enqueueSnackbar("Not support your browser version!", { "variant": "error" })
+    }
   }, []);
 
   useEffect(() => {
@@ -42,17 +41,18 @@ function App() {
 
   const convertFile = async () => {
     try {
+      // eslint-disable-next-line no-undef
+      if (!crossOriginIsolated) {
+        enqueueSnackbar("Not support your browser version!", { "variant": "error" })
+        return;
+      }
       if (m3u8File === null || tsFiles.length === 0) {
-        alert("please select m3u8 file and ts files!");
+        enqueueSnackbar("please select the input files!", { "variant": "warning" })
         return;
       }
       setLog((prevLog) => prevLog + "[info] read the input files...\n");
       setConvertDisBtnEnable(true);
-
-      // setStopBtnDisEnable(false);
       let keyFileFlag = false;
-      // Load FFmpeg
-      // await ffmpeg.load();
 
       // Read the input m3u8 file
       const m3u8Data = await fetchFile(m3u8File);
@@ -66,12 +66,10 @@ function App() {
         const tsData = await fetchFile(tsFiles[i]);
         if (fileName.includes('key')) {
           keyFileFlag = true;
-          console.log("keyFileFlag1:" + keyFileFlag);
           ffmpeg.FS('writeFile', `key`, tsData);
         } else {
           ffmpeg.FS('writeFile', `input${i}.ts`, tsData);
         }
-
       }
 
       // Set the log callback
@@ -104,12 +102,9 @@ function App() {
         ffmpeg.FS('unlink', `input${i}.ts`);
       }
       ffmpeg.FS('unlink', 'output.mp4');
-      alert("convert done!")
+      enqueueSnackbar("Convert Done!", { "variant": "success" })
     } catch (error) {
       setDownLoadBtnDisEnable(true);
-    }finally{
-      // setStopBtnDisEnable(true);
-      // setConvertDisBtnEnable(false);
     }
   };
 
@@ -131,33 +126,35 @@ function App() {
   };
 
   return (
-    <div className='m3u8ConvertBox'>
-      <div className='title'>m3u8 TO mp4</div>
-      <div className='m3u8File'>
-        <label htmlFor="m3u8File">Select m3u8 file:</label>
-        <input type="file" id="m3u8File" accept=".m3u8" onChange={handleM3u8FileChange} />
-      </div>
-      <div className='tsFiles'>
-        <label htmlFor="tsFiles">Select ts and key files:</label>
-        <input type="file" id="tsFiles" onChange={handleTsFilesChange} multiple />
-        {/* <ul>
-          {tsFiles.map((file, index) => (
-            <li key={index}>{file.name}</li>
-          ))}
-        </ul> */}
-      </div>
 
-      <div className='btn'>
-        <button onClick={convertFile} disabled={convertBtnDisEnable}>Convert</button>
-        {/* <button onClick={stopConvert} disabled={stopBtnDisEnable}>Stop</button> */}
-        <button onClick={handleDownload} disabled={downLoadBtnDisEnable}>Download</button>
-      </div>
-      <div className='logBox'>
-        <pre id="log" style={{ backgroundColor: 'black', color: 'white', height: '500px', width: '100%', overflow: 'auto' }}>
-          {log}
-        </pre>
-      </div>
-    </div>
+    <Grid container justifyContent="center" alignItems="center" spacing={2}>
+      <Grid item xs={12} sm={8} md={6}>
+        <Box>
+          <Typography variant="h3">
+            m3u8 TO mp4
+          </Typography>
+          <Box className='m3u8File'>
+            <input type='file' accept=".m3u8" onChange={handleM3u8FileChange} />
+          </Box>
+          <Box className='tsFiles'>
+            <input type='file' onChange={handleTsFilesChange} multiple />
+          </Box>
+
+          <Box className='btn'>
+            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+              <Button variant="contained" onClick={convertFile} disabled={convertBtnDisEnable}>Convert</Button>
+              <Button variant="contained" onClick={handleDownload} disabled={downLoadBtnDisEnable}>Download</Button>
+
+            </ButtonGroup>
+          </Box>
+          <Box className='logBox'>
+            <pre id="log" style={{ backgroundColor: 'black', color: 'white', height: '500px', width: '100%', overflow: 'auto' }}>
+              {log}
+            </pre>
+          </Box>
+        </Box>
+      </Grid>
+    </Grid>
   );
 }
 
