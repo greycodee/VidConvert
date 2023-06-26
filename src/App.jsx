@@ -5,8 +5,50 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import Paper from '@mui/material/Paper';
 import { useSnackbar } from 'notistack';
 import { parseM3u8File } from './util/M3u8Utils';
+import { styled } from '@mui/material/styles';
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+  borderRadius: '0px',
+}));
+
+const LogTermainl = styled('pre')(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#000' : '#fff',
+  color: theme.palette.text.secondary,
+  height: '500px',
+  width: '100%',
+  overflow: 'auto',
+  textAlign: 'left',
+}));
+
+// eslint-disable-next-line react/prop-types
+const FileInputBox = ({ label, accept, onChange, multiple }) => (
+  <Stack direction="row">
+    <Box
+      flex={1}
+      textAlign={'left'}
+    >
+      <label htmlFor='contained-button-file'>{label}</label>
+    </Box>
+    <Box flex={7}>
+      <input type='file' accept={accept} onChange={onChange} multiple={multiple} />
+    </Box>
+
+  </Stack>
+);
+
+const FileInput = styled(FileInputBox)(({ theme }) => ({
+  padding: theme.spacing(1),
+}));
+
 
 const ffmpeg = createFFmpeg({ log: true });
 
@@ -34,10 +76,10 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    // Set the log element to the ref
-    logRef.current = document.getElementById('log');
-  }, []);
+  // useEffect(() => {
+  //   // Set the log element to the ref
+  //   logRef.current = document.getElementById('log');
+  // }, []);
 
   const convertFile = async () => {
     try {
@@ -127,32 +169,40 @@ function App() {
 
   return (
 
-    <Grid container justifyContent="center" alignItems="center" spacing={2}>
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      width='100vw'
+    >
       <Grid item xs={12} sm={8} md={6}>
-        <Box>
-          <Typography variant="h3">
-            m3u8 TO mp4
-          </Typography>
-          <Box className='m3u8File'>
-            <input type='file' accept=".m3u8" onChange={handleM3u8FileChange} />
-          </Box>
-          <Box className='tsFiles'>
-            <input type='file' onChange={handleTsFilesChange} multiple />
-          </Box>
+        <Stack>
+          <Item >
+            <Typography variant="h4" >
+              M3U8 To MP4
+            </Typography>
+          </Item>
+          <Item>
+            <FileInput label="M3U8 File:" onChange={handleM3u8FileChange} accept=".m3u8" />
+          </Item>
+          <Item>
+            <FileInput label="ts File:" onChange={handleTsFilesChange} multiple />
+          </Item>
 
-          <Box className='btn'>
+          <Item>
             <ButtonGroup variant="contained" aria-label="outlined primary button group">
               <Button variant="contained" onClick={convertFile} disabled={convertBtnDisEnable}>Convert</Button>
               <Button variant="contained" onClick={handleDownload} disabled={downLoadBtnDisEnable}>Download</Button>
 
             </ButtonGroup>
-          </Box>
-          <Box className='logBox'>
-            <pre id="log" style={{ backgroundColor: 'black', color: 'white', height: '500px', width: '100%', overflow: 'auto' }}>
+          </Item>
+          <Item>
+            <LogTermainl ref={logRef}>{log}</LogTermainl>
+            {/* <pre ref={logRef} style={{ backgroundColor: 'black', color: 'white', height: '500px', width: '100%', overflow: 'auto' }}>
               {log}
-            </pre>
-          </Box>
-        </Box>
+            </pre> */}
+          </Item>
+        </Stack>
       </Grid>
     </Grid>
   );
