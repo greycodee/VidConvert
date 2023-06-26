@@ -21,9 +21,16 @@ function App() {
 
   useEffect(() => {
     const loadFFmpeg = async () => {
-      await ffmpeg.load();
+      console.log(crossOriginIsolated);
+      if (crossOriginIsolated) {
+        await ffmpeg.load();   // Post SharedArrayBuffer
+        console.log('ffmpeg.wasm has been loaded')
+      } else {
+        alert("not support your browser version!")
+      }
+      //await ffmpeg.load();
       // `ffmpeg.wasm` 文件已经加载完成，可以在这里使用 `ffmpeg`
-      console.log('ffmpeg.wasm has been loaded')
+      //console.log('ffmpeg.wasm has been loaded')
     };
     loadFFmpeg();
   }, []);
@@ -35,7 +42,13 @@ function App() {
 
   const convertFile = async () => {
     try {
+      if (m3u8File === null || tsFiles.length === 0) {
+        alert("please select m3u8 file and ts files!");
+        return;
+      }
+      setLog((prevLog) => prevLog + "[info] read the input files...\n");
       setConvertDisBtnEnable(true);
+
       // setStopBtnDisEnable(false);
       let keyFileFlag = false;
       // Load FFmpeg
@@ -91,6 +104,7 @@ function App() {
         ffmpeg.FS('unlink', `input${i}.ts`);
       }
       ffmpeg.FS('unlink', 'output.mp4');
+      alert("convert done!")
     } catch (error) {
       setDownLoadBtnDisEnable(true);
     }finally{
