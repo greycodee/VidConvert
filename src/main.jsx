@@ -4,6 +4,7 @@ import App from './App.jsx'
 import { SnackbarProvider } from 'notistack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import './index.css'
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
