@@ -1,95 +1,36 @@
-import { useState, useEffect, useRef } from 'react';
-import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
-import { useSnackbar } from 'notistack';
-import { parseM3u8File } from './util/M3u8Utils';
-import { styled } from '@mui/material/styles';
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-  borderRadius: '0px',
-}));
-
-const LogTermainl = styled('pre')(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#000' : '#fff',
-  color: theme.palette.text.secondary,
-  height: '500px',
-  width: '100%',
-  overflow: 'auto',
-  textAlign: 'left',
-}));
-
-// eslint-disable-next-line react/prop-types
-const FileInputBox = ({ label, accept, onChange, multiple }) => (
-  <Stack direction="row">
-    <Box
-      flex={1}
-      textAlign={'left'}
-    >
-      <label htmlFor='contained-button-file'>{label}</label>
-    </Box>
-    <Box flex={7}>
-      <input type='file' accept={accept} onChange={onChange} multiple={multiple} />
-    </Box>
-
-  </Stack>
-);
-
-const FileInput = styled(FileInputBox)(({ theme }) => ({
-  padding: theme.spacing(1),
-}));
-
+import { useState, useEffect, useRef } from "react";
+import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+import { parseM3u8File } from "./util/M3u8Utils";
 
 const ffmpeg = createFFmpeg({ log: true });
 
 function App() {
-
-  const { enqueueSnackbar } = useSnackbar();
   const [m3u8File, setM3u8File] = useState(null);
   const [tsFiles, setTsFiles] = useState([]);
   const [convertedFile, setConvertedFile] = useState(null);
   const [convertBtnDisEnable, setConvertDisBtnEnable] = useState(false);
   const [downLoadBtnDisEnable, setDownLoadBtnDisEnable] = useState(true);
-  const [log, setLog] = useState('');
+  const [log, setLog] = useState("");
   const logRef = useRef(null);
 
   useEffect(() => {
     const loadFFmpeg = async () => {
       await ffmpeg.load();
-      console.log('ffmpeg.wasm has been loaded')
-    }
+      console.log("ffmpeg.wasm has been loaded");
+    };
     // eslint-disable-next-line no-undef
     if (crossOriginIsolated) {
       loadFFmpeg();
-    } else {
-      enqueueSnackbar("Not support your browser version!", { "variant": "error" })
     }
   }, []);
-
-  // useEffect(() => {
-  //   // Set the log element to the ref
-  //   logRef.current = document.getElementById('log');
-  // }, []);
 
   const convertFile = async () => {
     try {
       // eslint-disable-next-line no-undef
       if (!crossOriginIsolated) {
-        enqueueSnackbar("Not support your browser version!", { "variant": "error" })
         return;
       }
       if (m3u8File === null || tsFiles.length === 0) {
-        enqueueSnackbar("please select the input files!", { "variant": "warning" })
         return;
       }
       setLog((prevLog) => prevLog + "[info] read the input files...\n");
@@ -98,19 +39,19 @@ function App() {
 
       // Read the input m3u8 file
       const m3u8Data = await fetchFile(m3u8File);
-      const m3u8String = new TextDecoder('utf-8').decode(m3u8Data); // 将 m3u8Data 转换为字符串类型
+      const m3u8String = new TextDecoder("utf-8").decode(m3u8Data); // 将 m3u8Data 转换为字符串类型
       const updatedM3u8Data = parseM3u8File(m3u8String);
-      ffmpeg.FS('writeFile', 'input.m3u8', updatedM3u8Data);
+      ffmpeg.FS("writeFile", "input.m3u8", updatedM3u8Data);
 
       // Read the input ts files
       for (let i = 0; i < tsFiles.length; i++) {
         const fileName = tsFiles[i].name;
         const tsData = await fetchFile(tsFiles[i]);
-        if (fileName.includes('key')) {
+        if (fileName.includes("key")) {
           keyFileFlag = true;
-          ffmpeg.FS('writeFile', `key`, tsData);
+          ffmpeg.FS("writeFile", `key`, tsData);
         } else {
-          ffmpeg.FS('writeFile', `input${i}.ts`, tsData);
+          ffmpeg.FS("writeFile", `input${i}.ts`, tsData);
         }
       }
 
@@ -120,31 +61,37 @@ function App() {
         logRef.current.scrollTop = logRef.current.scrollHeight;
       });
 
-
       // Run FFmpeg to convert the files
-      await ffmpeg.run('-allowed_extensions', 'ALL', '-i', 'input.m3u8', '-c', 'copy', 'output.mp4');
+      await ffmpeg.run(
+        "-allowed_extensions",
+        "ALL",
+        "-i",
+        "input.m3u8",
+        "-c",
+        "copy",
+        "output.mp4"
+      );
 
       // Read the output file
-      const outputData = ffmpeg.FS('readFile', 'output.mp4');
-      const outputBlob = new Blob([outputData.buffer], { type: 'video/mp4' });
+      const outputData = ffmpeg.FS("readFile", "output.mp4");
+      const outputBlob = new Blob([outputData.buffer], { type: "video/mp4" });
 
       // Set the converted file for download
       setConvertedFile(outputBlob);
       setDownLoadBtnDisEnable(false);
 
       // Cleanup
-      ffmpeg.FS('unlink', 'input.m3u8');
+      ffmpeg.FS("unlink", "input.m3u8");
       let tsFilesSize = tsFiles.length;
       console.log("keyFileFlag2:" + keyFileFlag);
       if (keyFileFlag) {
         tsFilesSize = tsFilesSize - 1;
-        ffmpeg.FS('unlink', 'key');
+        ffmpeg.FS("unlink", "key");
       }
       for (let i = 0; i < tsFilesSize; i++) {
-        ffmpeg.FS('unlink', `input${i}.ts`);
+        ffmpeg.FS("unlink", `input${i}.ts`);
       }
-      ffmpeg.FS('unlink', 'output.mp4');
-      enqueueSnackbar("Convert Done!", { "variant": "success" })
+      ffmpeg.FS("unlink", "output.mp4");
     } catch (error) {
       setDownLoadBtnDisEnable(true);
     }
@@ -160,51 +107,128 @@ function App() {
 
   const handleDownload = () => {
     const url = URL.createObjectURL(convertedFile);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'output.mp4';
+    a.download = "output.mp4";
     a.click();
     URL.revokeObjectURL(url);
   };
 
   return (
+    <div className="h-screen w-screen bg-slate-300 flex">
+      <div className="flex-col p-5 bg-white shadow-lg rounded-xl w-128  m-auto">
+        <h1 className="text-center font-bold">M3U8 To MP4</h1>
+        <div className="mt-2">
+          <label
+            htmlFor="m3u8File"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Choose the m3u8 file
+          </label>
+          <div className="relative mt-2 rounded-md shadow-sm">
+            {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <span className="text-gray-500 sm:text-sm">$</span>
+          </div> */}
+            <input
+              type="file"
+              name="m3u8File"
+              id="m3u8File"
+              className="block 
+            w-full 
+            rounded-md 
+            border-0 
+            text-gray-900 
+            ring-1 
+            ring-inset 
+            ring-gray-300 
+            placeholder:text-gray-400 
+            focus:ring-2 focus:ring-inset
+            sm:text-sm sm:leading-6
+            file:border-none
+            file:w-32 file:h-10 file:bg-sky-400 file:text-white
+            "
+              onChange={handleM3u8FileChange}
+              placeholder="0.00"
+            />
+          </div>
+        </div>
 
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      width='100vw'
-    >
-      <Grid item xs={12} sm={8} md={6}>
-        <Stack>
-          <Item >
-            <Typography variant="h4" >
-              M3U8 To MP4
-            </Typography>
-          </Item>
-          <Item>
-            <FileInput label="M3U8 File:" onChange={handleM3u8FileChange} accept=".m3u8" />
-          </Item>
-          <Item>
-            <FileInput label="ts File:" onChange={handleTsFilesChange} multiple />
-          </Item>
-
-          <Item>
-            <ButtonGroup variant="contained" aria-label="outlined primary button group">
-              <Button variant="contained" onClick={convertFile} disabled={convertBtnDisEnable}>Convert</Button>
-              <Button variant="contained" onClick={handleDownload} disabled={downLoadBtnDisEnable}>Download</Button>
-
-            </ButtonGroup>
-          </Item>
-          <Item>
-            <LogTermainl ref={logRef}>{log}</LogTermainl>
-            {/* <pre ref={logRef} style={{ backgroundColor: 'black', color: 'white', height: '500px', width: '100%', overflow: 'auto' }}>
-              {log}
-            </pre> */}
-          </Item>
-        </Stack>
-      </Grid>
-    </Grid>
+        <div className="mt-2">
+          <label
+            htmlFor="tsFile"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Choose the ts file
+          </label>
+          <div className="relative mt-2 rounded-md shadow-sm">
+            <input
+              type="file"
+              name="tsFile"
+              id="tsFile"
+              className="block 
+            w-full 
+            rounded-md 
+            border-0 
+            text-gray-900 
+            ring-1 
+            ring-inset 
+            ring-gray-300 
+            placeholder:text-gray-400 
+            focus:ring-2 focus:ring-inset
+            sm:text-sm sm:leading-6
+            file:border-none
+            file:w-32 file:h-10 file:bg-sky-400 file:text-white
+            
+            "
+              placeholder="0.00"
+              onChange={handleTsFilesChange}
+              multiple
+            />
+          </div>
+        </div>
+        {/* <div className="flex items-center space-x-6 border-b-2 border-indigo-100">
+        <label className="block">
+          <span className="">Choose profile photo</span>
+          <input
+            type="file"
+            onChange={handleTsFilesChange}
+            multiple
+            className="block w-full text-sm text-slate-500
+            file:mr-4 file:py-2 file:px-2 file:w-24 file:h-10
+            file:rounded-full file:border-0
+            file:text-sm file:font-semibold
+            file:bg-violet-50 file:text-violet-700
+            hover:file:bg-violet-100
+          "
+          />
+        </label>
+      </div> */}
+        <div className="flex-row center text-center mt-2 mb-2">
+          <button
+            className="bg-sky-400 m-1 text-white rounded-md w-24 h-10 text-sm disabled:bg-sky-200 hover:bg-sky-500"
+            onClick={convertFile}
+            disabled={convertBtnDisEnable}
+          >
+            Convert
+          </button>
+          <button
+            className="bg-sky-400 m-1 text-white rounded-md w-24 h-10 text-sm disabled:bg-sky-200 hover:bg-sky-500"
+            onClick={handleDownload}
+            disabled={downLoadBtnDisEnable}
+          >
+            Download
+          </button>
+        </div>
+        <div className="w-full">
+          <pre
+            ref={logRef}
+            className="bg-black overflow-auto text-white rounded-sm h-96 w-full text-xs"
+          >
+            {log}
+          </pre>
+        </div>
+      </div>
+    </div>
   );
 }
 
