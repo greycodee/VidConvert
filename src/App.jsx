@@ -28,7 +28,6 @@ function App() {
     try {
       // eslint-disable-next-line no-undef
       if (!crossOriginIsolated) {
-        
         return;
       }
       if (m3u8File === null || tsFiles.length === 0) {
@@ -116,25 +115,76 @@ function App() {
   };
 
   return (
-    <div className="flex-col p-5 bg-slate-400 rounded-xl w-128 h-3/4 m-auto">
-      <div className="flex items-center space-x-6 border-b-2 border-indigo-100">
-        <label className="block">
-          <span className="">Choose profile photo</span>
+    <div className="flex-col p-5 bg-white shadow-lg rounded-xl w-128 h-3/4 m-auto">
+      <div className="mt-2">
+        <label
+          htmlFor="m3u8File"
+          className="block text-sm font-medium leading-6 text-gray-900"
+        >
+          Choose the m3u8 file
+        </label>
+        <div className="relative mt-2 rounded-md shadow-sm">
+          {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <span className="text-gray-500 sm:text-sm">$</span>
+          </div> */}
           <input
             type="file"
+            name="m3u8File"
+            id="m3u8File"
+            className="block 
+            w-full 
+            rounded-md 
+            border-0 
+            text-gray-900 
+            ring-1 
+            ring-inset 
+            ring-gray-300 
+            placeholder:text-gray-400 
+            focus:ring-2 focus:ring-inset
+            sm:text-sm sm:leading-6
+            file:border-none
+            file:w-32 file:h-10 file:bg-sky-400 file:text-white
+            "
             onChange={handleM3u8FileChange}
-            accept=".m3u8"
-            className="block w-full text-sm text-slate-500
-            file:mr-4 file:py-2 file:px-2 file:w-24 file:h-10
-            file:rounded-full file:border-0
-            file:text-sm file:font-semibold
-            file:bg-violet-50 file:text-violet-700
-            hover:file:bg-violet-100
-          "
+            placeholder="0.00"
           />
-        </label>
+        </div>
       </div>
-      <div className="flex items-center space-x-6 border-b-2 border-indigo-100">
+      
+      <div className="mt-2">
+        <label
+          htmlFor="tsFile"
+          className="block text-sm font-medium leading-6 text-gray-900"
+        >
+          Choose the ts file
+        </label>
+        <div className="relative mt-2 rounded-md shadow-sm">
+          <input
+            type="file"
+            name="tsFile"
+            id="tsFile"
+            className="block 
+            w-full 
+            rounded-md 
+            border-0 
+            text-gray-900 
+            ring-1 
+            ring-inset 
+            ring-gray-300 
+            placeholder:text-gray-400 
+            focus:ring-2 focus:ring-inset
+            sm:text-sm sm:leading-6
+            file:border-none
+            file:w-32 file:h-10 file:bg-sky-400 file:text-white
+            
+            "
+            placeholder="0.00"
+            onChange={handleTsFilesChange}
+            multiple
+          />
+        </div>
+      </div>
+      {/* <div className="flex items-center space-x-6 border-b-2 border-indigo-100">
         <label className="block">
           <span className="">Choose profile photo</span>
           <input
@@ -150,17 +200,17 @@ function App() {
           "
           />
         </label>
-      </div>
-      <div className="flex-row center text-center">
+      </div> */}
+      <div className="flex-row center text-center mt-2 mb-2">
         <button
-          className="bg-slate-900 m-1 text-sky-100 rounded-full w-24 h-10 text-sm"
+          className="bg-sky-400 m-1 text-white rounded-md w-24 h-10 text-sm"
           onClick={convertFile}
           disabled={convertBtnDisEnable}
         >
           Convert
         </button>
         <button
-          className="bg-slate-900 m-1 text-sky-100 rounded-full w-24 h-10 text-sm"
+          className="bg-sky-400 m-1 text-white rounded-md w-24 h-10 text-sm"
           onClick={handleDownload}
           disabled={downLoadBtnDisEnable}
         >
@@ -170,7 +220,7 @@ function App() {
       <div className="w-full">
         <pre
           ref={logRef}
-          className="bg-black overflow-auto text-white rounded-sm h-96 w-full"
+          className="bg-black overflow-auto text-white rounded-sm h-96 w-full text-xs"
         >
           {log}
         </pre>
