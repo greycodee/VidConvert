@@ -115,23 +115,25 @@ function App() {
   };
 
   return (
-    <div className="flex-col p-5 bg-white shadow-lg rounded-xl w-128 h-3/4 m-auto">
-      <div className="mt-2">
-        <label
-          htmlFor="m3u8File"
-          className="block text-sm font-medium leading-6 text-gray-900"
-        >
-          Choose the m3u8 file
-        </label>
-        <div className="relative mt-2 rounded-md shadow-sm">
-          {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+    <div className="h-screen w-screen bg-slate-300 flex">
+      <div className="flex-col p-5 bg-white shadow-lg rounded-xl w-128  m-auto">
+        <h1 className="text-center font-bold">M3U8 To MP4</h1>
+        <div className="mt-2">
+          <label
+            htmlFor="m3u8File"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Choose the m3u8 file
+          </label>
+          <div className="relative mt-2 rounded-md shadow-sm">
+            {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <span className="text-gray-500 sm:text-sm">$</span>
           </div> */}
-          <input
-            type="file"
-            name="m3u8File"
-            id="m3u8File"
-            className="block 
+            <input
+              type="file"
+              name="m3u8File"
+              id="m3u8File"
+              className="block 
             w-full 
             rounded-md 
             border-0 
@@ -145,25 +147,25 @@ function App() {
             file:border-none
             file:w-32 file:h-10 file:bg-sky-400 file:text-white
             "
-            onChange={handleM3u8FileChange}
-            placeholder="0.00"
-          />
+              onChange={handleM3u8FileChange}
+              placeholder="0.00"
+            />
+          </div>
         </div>
-      </div>
-      
-      <div className="mt-2">
-        <label
-          htmlFor="tsFile"
-          className="block text-sm font-medium leading-6 text-gray-900"
-        >
-          Choose the ts file
-        </label>
-        <div className="relative mt-2 rounded-md shadow-sm">
-          <input
-            type="file"
-            name="tsFile"
-            id="tsFile"
-            className="block 
+
+        <div className="mt-2">
+          <label
+            htmlFor="tsFile"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Choose the ts file
+          </label>
+          <div className="relative mt-2 rounded-md shadow-sm">
+            <input
+              type="file"
+              name="tsFile"
+              id="tsFile"
+              className="block 
             w-full 
             rounded-md 
             border-0 
@@ -178,13 +180,13 @@ function App() {
             file:w-32 file:h-10 file:bg-sky-400 file:text-white
             
             "
-            placeholder="0.00"
-            onChange={handleTsFilesChange}
-            multiple
-          />
+              placeholder="0.00"
+              onChange={handleTsFilesChange}
+              multiple
+            />
+          </div>
         </div>
-      </div>
-      {/* <div className="flex items-center space-x-6 border-b-2 border-indigo-100">
+        {/* <div className="flex items-center space-x-6 border-b-2 border-indigo-100">
         <label className="block">
           <span className="">Choose profile photo</span>
           <input
@@ -201,29 +203,30 @@ function App() {
           />
         </label>
       </div> */}
-      <div className="flex-row center text-center mt-2 mb-2">
-        <button
-          className="bg-sky-400 m-1 text-white rounded-md w-24 h-10 text-sm"
-          onClick={convertFile}
-          disabled={convertBtnDisEnable}
-        >
-          Convert
-        </button>
-        <button
-          className="bg-sky-400 m-1 text-white rounded-md w-24 h-10 text-sm"
-          onClick={handleDownload}
-          disabled={downLoadBtnDisEnable}
-        >
-          Download
-        </button>
-      </div>
-      <div className="w-full">
-        <pre
-          ref={logRef}
-          className="bg-black overflow-auto text-white rounded-sm h-96 w-full text-xs"
-        >
-          {log}
-        </pre>
+        <div className="flex-row center text-center mt-2 mb-2">
+          <button
+            className="bg-sky-400 m-1 text-white rounded-md w-24 h-10 text-sm disabled:bg-sky-200 hover:bg-sky-500"
+            onClick={convertFile}
+            disabled={convertBtnDisEnable}
+          >
+            Convert
+          </button>
+          <button
+            className="bg-sky-400 m-1 text-white rounded-md w-24 h-10 text-sm disabled:bg-sky-200 hover:bg-sky-500"
+            onClick={handleDownload}
+            disabled={downLoadBtnDisEnable}
+          >
+            Download
+          </button>
+        </div>
+        <div className="w-full">
+          <pre
+            ref={logRef}
+            className="bg-black overflow-auto text-white rounded-sm h-96 w-full text-xs"
+          >
+            {log}
+          </pre>
+        </div>
       </div>
     </div>
   );
