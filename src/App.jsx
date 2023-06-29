@@ -1,5 +1,5 @@
 // import M3U8TappoMP4 from "./pages/M3U8ToMP4";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 function App() {
   const itemData = [
@@ -19,14 +19,22 @@ function App() {
     },
   ];
   return (
-    <div className="bg-slate-200 w-full h-screen">
-      <ul className="bg-slate-50 flex flex-row">
+    <div className="bg-slate-200 w-full h-screen p-2">
+      <ul className="bg-slate-50 flex flex-wrap">
         {itemData.map((item) => (
-          <Link key={item.key} to={item.link}>
-            <li key={item.key} className="bg-black text-cyan-100 p-2 m-2">
-              {item.title}
-            </li>
-          </Link>
+          <li
+            key={item.key}
+            className="bg-sky-500 text-white p-2 m-2 rounded-md w-full sm:w-40 h-20 shadow-md 
+            hover:bg-sky-400 hover:shadow-lg"
+          >
+            <Link key={item.key} to={item.link}>
+              {/* <img src={item.icon} alt={item.title} /> */}
+              <div>
+                <div className="text-sm">{item.title}</div>
+                <p className="text-xs">{item.content}</p>
+              </div>
+            </Link>
+          </li>
         ))}
       </ul>
     </div>
