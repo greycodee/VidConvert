@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 import { parseM3u8File } from "../util/M3u8Utils";
 
-
 const ffmpeg = createFFmpeg({ log: true });
 
 function M3U8ToMP4() {
@@ -13,7 +12,6 @@ function M3U8ToMP4() {
   const [downLoadBtnDisEnable, setDownLoadBtnDisEnable] = useState(true);
   const [log, setLog] = useState("");
   const logRef = useRef(null);
-
 
   useEffect(() => {
     const loadFFmpeg = async () => {
@@ -117,8 +115,9 @@ function M3U8ToMP4() {
   };
 
   return (
-    <div className="h-screen w-screen bg-slate-300 flex">
-      <div className="flex-col p-5 bg-white shadow-lg rounded-xl w-128  m-auto">
+    <div className="h-screen bg-slate-300 flex">
+      {/* <div className="flex-col p-5 bg-white shadow-lg rounded-xl w-128  m-auto"> */}
+      <div className="h-screen w-screen sm:w-3/5 sm:h-5/6 sm:m-auto bg-white rounded-md p-5 flex flex-col">
         <h1 className="text-center font-bold">M3U8 To MP4</h1>
         <div className="mt-2">
           <label
@@ -128,9 +127,6 @@ function M3U8ToMP4() {
             Choose the m3u8 file
           </label>
           <div className="relative mt-2 rounded-md shadow-sm">
-            {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <span className="text-gray-500 sm:text-sm">$</span>
-          </div> */}
             <input
               type="file"
               name="m3u8File"
@@ -188,23 +184,6 @@ function M3U8ToMP4() {
             />
           </div>
         </div>
-        {/* <div className="flex items-center space-x-6 border-b-2 border-indigo-100">
-        <label className="block">
-          <span className="">Choose profile photo</span>
-          <input
-            type="file"
-            onChange={handleTsFilesChange}
-            multiple
-            className="block w-full text-sm text-slate-500
-            file:mr-4 file:py-2 file:px-2 file:w-24 file:h-10
-            file:rounded-full file:border-0
-            file:text-sm file:font-semibold
-            file:bg-violet-50 file:text-violet-700
-            hover:file:bg-violet-100
-          "
-          />
-        </label>
-      </div> */}
         <div className="flex-row center text-center mt-2 mb-2">
           <button
             className="bg-sky-400 m-1 text-white rounded-md w-24 h-10 text-sm disabled:bg-sky-200 hover:bg-sky-500"
@@ -221,14 +200,14 @@ function M3U8ToMP4() {
             Download
           </button>
         </div>
-        <div className="w-full">
+        
           <pre
             ref={logRef}
-            className="bg-black overflow-auto text-white rounded-sm h-96 w-full text-xs"
+            className="overflow-auto basis-full bg-black text-white rounded-sm text-xs p-2"
           >
             {log}
           </pre>
-        </div>
+      
       </div>
     </div>
   );

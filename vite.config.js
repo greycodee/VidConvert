@@ -6,5 +6,11 @@ export default defineConfig({
   base: '/VidConvert',
   plugins: [
     react()
-  ]
+  ],
+  // server: {
+  //   headers: {
+  //     'Cross-Origin-Embedder-Policy': 'require-corp',
+  //     'Cross-Origin-Opener-Policy': 'same-origin',
+  //   },
+  // },
 })
