@@ -101,6 +101,8 @@ function WaterMark() {
           ffmpeg -hide_banner -i VID_20230626_095923.mp4 -i kbs-logo.svg
           -filter_complex "[1:v] scale=176:40
           [logo];[0:v][logo]overlay=x=W-w:y=10" out.mp4"
+          <br></br>
+          ffmpeg -i .\first.jpg -i .\22.png -filter_complex "[1:v] scale=200:200 [logo];[0:v] [logo]overlay=x=W-w:y=10" out1.jpg
         </pre>
       </div>
     </div>
