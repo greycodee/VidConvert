@@ -1,11 +1,34 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import M3U8ToMP4 from "./pages/M3U8ToMP4.jsx";
+import "./index.css";
+import { BrowserRouter, useRoutes } from "react-router-dom";
 
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const routeData = [
+  {
+    path: "/",
+    element: <App />
+  },
+  { 
+    path: "/m3u8tomp4", 
+    element: <M3U8ToMP4 />
+  }
+
+]
+
+const Routes = () =>{
+  let r = useRoutes(routeData);
+  return r;
+}
+
+
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-        <App />
+    <BrowserRouter basename="/VidConvert">
+      <Routes />
+    </BrowserRouter>
+    {/* <App /> */}
   </React.StrictMode>
-)
+);
