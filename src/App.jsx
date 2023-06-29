@@ -14,8 +14,8 @@ function App() {
       key: 2,
       icon: "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
       title: "Add watermark",
-      content: "content123",
-      link: "/23",
+      content: "watermark",
+      link: "/watermark",
     },
   ];
   return (
