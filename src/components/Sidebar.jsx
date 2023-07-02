@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
 
-function Sidebar({ isOpen, toggleSidebar, itemData }) {
+function Sidebar({className, isOpen, toggleSidebar, itemData }) {
   return (
-    <div>
-      <div
+    <div className={`h-full ${isOpen ? "w-48":"w-20"} bg-sky-200 transition-all duration-500 ease-in-out
+    ${className} `}
+    // style={{ display: isOpen ? "block" : "none" }}
+    >
+      {/* <div
         className="fixed top-0 left-0 h-full w-full bg-black opacity-50 z-20"
         onClick={toggleSidebar}
         style={{ display: isOpen ? "block" : "none" }}
-      ></div>
-      <div
-        className={`fixed top-0 left-0 h-full w-64 bg-white z-20 transition-transform duration-500 transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
+      ></div> */}
+      <div>
+        <button onClick={
+          toggleSidebar
+        }>close</button>
         <nav className="mt-8">
           <ul>
             {itemData.map((item) => (

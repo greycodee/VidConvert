@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import TopBar from "./components/TopBar";
+import TopBarMenu from "./components/TopBarMenu";
 import { Outlet } from "react-router-dom";
 
 
@@ -25,18 +26,29 @@ function App() {
     }
   ];
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <div className="bg-slate-200 w-screen h-screen flex pt-14">
-      <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} itemData={itemData}/>
-      <TopBar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-      <div className="h-full w-full">
-        <Outlet />
-      </div>
+    <div className="bg-slate-200 w-screen h-screen flex flwx-row">
+      <Sidebar
+      className="hidden sm:block"
+      isOpen={isOpen} 
+      toggleSidebar={toggleSidebar} 
+      itemData={itemData}/>
+    
+      <TopBarMenu 
+      className="sm:hidden" 
+      isOpen={isOpen} 
+      toggleSidebar={toggleSidebar} 
+      menuData={itemData}
+      />
+
+      <Outlet />
+ 
+      
     </div>
   );
 }
