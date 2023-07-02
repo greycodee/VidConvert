@@ -15,7 +15,8 @@
     "buffer": "^6.0.3",
     "csstype": "^3.0.10",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.14",
