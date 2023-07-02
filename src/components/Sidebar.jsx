@@ -4,7 +4,7 @@ function Sidebar({ isOpen, toggleSidebar, itemData }) {
   return (
     <div>
       <div
-        className="fixed top-0 left-0 h-full w-full bg-black opacity-50 z-10"
+        className="fixed top-0 left-0 h-full w-full bg-black opacity-50 z-20"
         onClick={toggleSidebar}
         style={{ display: isOpen ? "block" : "none" }}
       ></div>

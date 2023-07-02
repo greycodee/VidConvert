@@ -105,10 +105,10 @@ function M3U8ToMP4({ffmpeg}) {
   };
 
   return (
-    <div className=" bg-slate-300 flex">
-      <div className="h-screen w-screen sm:w-3/5 sm:h-5/6 sm:m-auto bg-white rounded-md p-5 flex flex-col">
-        <h1 className="text-center font-bold">M3U8 To MP4</h1>
-        <div className="mt-2">
+    <div className=" bg-slate-300 h-full w-full">
+      <div className="h-full w-full  bg-white rounded-md p-5 flex flex-col sm:flex-row">
+        {/* <h1 className="text-center font-bold">M3U8 To MP4</h1> */}
+        <div className="mt-2 sm:mt-0">
           <label
             htmlFor="m3u8File"
             className="block text-sm font-medium leading-6 text-gray-900"
@@ -140,7 +140,7 @@ function M3U8ToMP4({ffmpeg}) {
           </div>
         </div>
 
-        <div className="mt-2">
+        <div className="mt-2 sm:mt-0">
           <label
             htmlFor="tsFile"
             className="block text-sm font-medium leading-6 text-gray-900"
@@ -192,7 +192,7 @@ function M3U8ToMP4({ffmpeg}) {
         
           <pre
             ref={logRef}
-            className="overflow-auto basis-full bg-black text-white rounded-sm text-xs p-2"
+            className="overflow-auto basis-full min-h-[300px] bg-black text-white rounded-sm text-xs p-2"
           >
             {log}
           </pre>

@@ -34,7 +34,7 @@ function App() {
     <div className="bg-slate-200 w-screen h-screen flex pt-14">
       <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} itemData={itemData}/>
       <TopBar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-      <div className="h-screen w-screen">
+      <div className="h-full w-full">
         <Outlet />
       </div>
     </div>
