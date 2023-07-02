@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+import { fetchFile } from "@ffmpeg/ffmpeg";
 
-const ffmpeg = createFFmpeg({ log: true });
-
-function WaterMark() {
+function WaterMark({ffmpeg}) {
   const [videoFile, setVideoFile] = useState(null);
   const [videoName, setVideoName] = useState("");
   const [watermarkFile, setWatermarkFile] = useState(null);
@@ -17,19 +15,12 @@ function WaterMark() {
   const logRef = useRef(null);
 
   useEffect(() => {
-    const loadFFmpeg = async () => {
-      await ffmpeg.load();
-      console.log("ffmpeg.wasm has been loaded");
-    };
-    // eslint-disable-next-line no-undef
-    if (crossOriginIsolated) {
-      loadFFmpeg();
-      // Set the log callback
-      ffmpeg.setLogger(({ type, message }) => {
-        setLog((prevLog) => prevLog + `[${type}] ${message}\n`);
-        logRef.current.scrollTop = logRef.current.scrollHeight;
-      });
-    }
+
+    ffmpeg.setLogger(({ type, message }) => {
+      setLog((prevLog) => prevLog + `[${type}] ${message}\n`);
+      logRef.current.scrollTop = logRef.current.scrollHeight;
+    });
+
   }, []);
 
   async function videoFileChangeHandler(event) {

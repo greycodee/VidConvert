@@ -1,10 +1,8 @@
-import { useState, useEffect, useRef } from "react";
-import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+import { useState, useRef, useEffect } from "react";
+import { fetchFile } from "@ffmpeg/ffmpeg";
 import { parseM3u8File } from "../util/M3u8Utils";
 
-const ffmpeg = createFFmpeg({ log: true });
-
-function M3U8ToMP4() {
+function M3U8ToMP4({ffmpeg}) {
   const [m3u8File, setM3u8File] = useState(null);
   const [tsFiles, setTsFiles] = useState([]);
   const [convertedFile, setConvertedFile] = useState(null);
@@ -14,14 +12,12 @@ function M3U8ToMP4() {
   const logRef = useRef(null);
 
   useEffect(() => {
-    const loadFFmpeg = async () => {
-      await ffmpeg.load();
-      console.log("ffmpeg.wasm has been loaded");
-    };
-    // eslint-disable-next-line no-undef
-    if (crossOriginIsolated) {
-      loadFFmpeg();
-    }
+
+    ffmpeg.setLogger(({ type, message }) => {
+      setLog((prevLog) => prevLog + `[${type}] ${message}\n`);
+      logRef.current.scrollTop = logRef.current.scrollHeight;
+    });
+
   }, []);
 
   const convertFile = async () => {
@@ -54,12 +50,6 @@ function M3U8ToMP4() {
           ffmpeg.FS("writeFile", `input${i}.ts`, tsData);
         }
       }
-
-      // Set the log callback
-      ffmpeg.setLogger(({ type, message }) => {
-        setLog((prevLog) => prevLog + `[${type}] ${message}\n`);
-        logRef.current.scrollTop = logRef.current.scrollHeight;
-      });
 
       // Run FFmpeg to convert the files
       await ffmpeg.run(
@@ -115,8 +105,7 @@ function M3U8ToMP4() {
   };
 
   return (
-    <div className="h-screen bg-slate-300 flex">
-      {/* <div className="flex-col p-5 bg-white shadow-lg rounded-xl w-128  m-auto"> */}
+    <div className=" bg-slate-300 flex">
       <div className="h-screen w-screen sm:w-3/5 sm:h-5/6 sm:m-auto bg-white rounded-md p-5 flex flex-col">
         <h1 className="text-center font-bold">M3U8 To MP4</h1>
         <div className="mt-2">
