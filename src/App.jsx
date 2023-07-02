@@ -1,5 +1,7 @@
 // import M3U8TappoMP4 from "./pages/M3U8ToMP4";
 import { Link } from "react-router-dom";
+import {useState} from "react";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   const itemData = [
@@ -39,10 +41,18 @@ function App() {
       link: "/fakedata",
     },
   ];
+
+  const [isOpen, setIsOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <div className="bg-slate-200 w-screen h-screen flex">
+          <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
       <div className="bg-slate-50 h-screen w-screen sm:w-max sm:h-max sm:m-auto rounded-lg p-2 min-w-max">
         <h1 className="text-center text-lg p-5">Video Convert Tool</h1>
+        <button onClick={toggleSidebar} className="w-20 h-10 bg-orange-300 hover:bg-orange-500">open sidebar2</button>
         <ul className=" grid grid-cols-1 sm:grid-cols-4 gap-4">
           {itemData.map((item) => (
             <li
@@ -61,6 +71,7 @@ function App() {
           ))}
         </ul>
       </div>
+  
     </div>
   );
 }
