@@ -3,6 +3,7 @@ import { createFFmpeg } from "@ffmpeg/ffmpeg";
 import Sidebar from "./components/Sidebar";
 import TopBarMenu from "./components/TopBarMenu";
 import { Outlet } from "react-router-dom";
+import { DiStackoverflow,DiApple,DiAngularSimple } from "react-icons/di";
 
 const ffmpeg = createFFmpeg({ log: true });
 
@@ -25,14 +26,21 @@ function App() {
   const itemData = [
     {
       key: 1,
-      icon: "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
+      icon: <DiStackoverflow/>,
       title: "M3U8 to MP4",
       content: "content123",
       link: "/m3u8tomp4",
     },
     {
       key: 2,
-      icon: "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
+      icon: <DiApple/>,
+      title: "Add watermark",
+      content: "watermark",
+      link: "/watermark",
+    },
+    {
+      key: 3,
+      icon: <DiAngularSimple/>,
       title: "Add watermark",
       content: "watermark",
       link: "/watermark",
