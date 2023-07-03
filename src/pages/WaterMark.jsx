@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchFile } from "@ffmpeg/ffmpeg";
+import { useOutletContext } from "react-router-dom";
 
-function WaterMark({ffmpeg}) {
+function WaterMark() {
+  const [ffmpeg] = useOutletContext();
   const [videoFile, setVideoFile] = useState(null);
   const [videoName, setVideoName] = useState("");
   const [watermarkFile, setWatermarkFile] = useState(null);
   const [watermarkName, setWatermarkName] = useState("");
-
   const [viderFirstFrame, setVideoFirstFrame] = useState(null);
   const [previewImage,setPreviewImage] = useState(null);
 

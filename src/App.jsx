@@ -1,13 +1,24 @@
-// import M3U8TappoMP4 from "./pages/M3U8ToMP4";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createFFmpeg } from "@ffmpeg/ffmpeg";
 import Sidebar from "./components/Sidebar";
-import TopBar from "./components/TopBar";
 import TopBarMenu from "./components/TopBarMenu";
 import { Outlet } from "react-router-dom";
 
-
+const ffmpeg = createFFmpeg({ log: true });
 
 function App() {
+
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    if (crossOriginIsolated) {
+      if (!ffmpeg.isLoaded()) {
+        ffmpeg.load();
+        console.log("ffmpeg.wasm has been loaded");
+      }
+    }else{
+      console.log("not crossOriginIsolated");
+    }
+  }, []);
 
   const itemData = [
     {
@@ -23,32 +34,31 @@ function App() {
       title: "Add watermark",
       content: "watermark",
       link: "/watermark",
-    }
+    },
   ];
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <div className="bg-slate-200 w-screen h-screen flex flwx-row">
+    <div className="bg-slate-200 w-screen h-screen flex flwx-row pt-14 sm:pt-0">
       <Sidebar
-      className="hidden sm:block"
-      isOpen={isOpen} 
-      toggleSidebar={toggleSidebar} 
-      itemData={itemData}/>
-    
-      <TopBarMenu 
-      className="sm:hidden" 
-      isOpen={isOpen} 
-      toggleSidebar={toggleSidebar} 
-      menuData={itemData}
+        className="hidden sm:block"
+        isOpen={isOpen}
+        toggleSidebar={toggleSidebar}
+        itemData={itemData}
       />
 
-      <Outlet />
- 
-      
+      <TopBarMenu
+        className="sm:hidden"
+        isOpen={isOpen}
+        toggleSidebar={toggleSidebar}
+        menuData={itemData}
+      />
+
+      <Outlet context={[ffmpeg]}/>
     </div>
   );
 }

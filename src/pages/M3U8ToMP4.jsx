@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { fetchFile } from "@ffmpeg/ffmpeg";
 import { parseM3u8File } from "../util/M3u8Utils";
+import { useOutletContext } from "react-router-dom";
 
-function M3U8ToMP4({ffmpeg}) {
+function M3U8ToMP4() {
+  const [ffmpeg] = useOutletContext();
   const [m3u8File, setM3u8File] = useState(null);
   const [tsFiles, setTsFiles] = useState([]);
   const [convertedFile, setConvertedFile] = useState(null);
@@ -41,6 +43,7 @@ function M3U8ToMP4({ffmpeg}) {
 
       // Read the input ts files
       for (let i = 0; i < tsFiles.length; i++) {
+        console.log("ts file length:" + tsFiles.length);
         const fileName = tsFiles[i].name;
         const tsData = await fetchFile(tsFiles[i]);
         if (fileName.includes("key")) {

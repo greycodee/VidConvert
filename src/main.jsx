@@ -1,26 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createFFmpeg } from "@ffmpeg/ffmpeg";
 import App from "./App.jsx";
 import M3U8ToMP4 from "./pages/M3U8ToMP4.jsx";
 import WaterMark from "./pages/WaterMark.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import "./index.css";
 import { BrowserRouter, useRoutes } from "react-router-dom";
-
-const ffmpeg = createFFmpeg({ log: true });
-await ffmpeg.load();
-
-// useEffect(() => {
-//   const loadFFmpeg = async () => {
-    
-//     console.log("ffmpeg.wasm has been loaded");
-//   };
-//   // eslint-disable-next-line no-undef
-//   if (crossOriginIsolated) {
-//     loadFFmpeg();
-//   }
-// }, []);
 
 
 const routeData = [
@@ -35,12 +20,12 @@ const routeData = [
       },
       { 
         path: "/m3u8tomp4", 
-        element: <M3U8ToMP4 ffmpeg={ffmpeg} />
+        element: <M3U8ToMP4 />
       }
       ,
       { 
         path: "/watermark", 
-        element: <WaterMark ffmpeg={ffmpeg} />
+        element: <WaterMark />
       }
     ]
   }
