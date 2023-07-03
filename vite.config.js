@@ -7,6 +7,9 @@ export default defineConfig({
   plugins: [
     react()
   ],
+  build: {
+    target:"esnext",
+  }
   // server: {
   //   headers: {
   //     'Cross-Origin-Embedder-Policy': 'require-corp',
