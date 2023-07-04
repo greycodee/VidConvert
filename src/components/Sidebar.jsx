@@ -19,8 +19,8 @@ function Sidebar({ className, isOpen, toggleSidebar, itemData }) {
 
   return (
     <div
-      className={`h-full px-2 text-white
-      ${isOpen ? "w-40" : "w-12"} 
+      className={`h-full px-2 text-white shadow-xl
+      ${isOpen ? "w-36" : "w-12"} 
         bg-slate-800 transition-all duration-500 ease-in-out
     ${className} `}
     >
