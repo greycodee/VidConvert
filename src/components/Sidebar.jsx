@@ -5,8 +5,8 @@ import { BiMenu } from "react-icons/bi";
 
 function Sidebar({ className, isOpen, toggleSidebar, itemData }) {
   const iconStyle = {
-    width: "36px",
-    height: "36px",
+    width: "24px",
+    height: "24px",
   };
   const mergedIcon = (itemIcon) => {
     return React.cloneElement(itemIcon, {
@@ -14,11 +14,13 @@ function Sidebar({ className, isOpen, toggleSidebar, itemData }) {
     });
   };
 
+  const [selectItem, setSelectItem] = React.useState(0);
+
   return (
     <div
-      className={`h-full ${
-        isOpen ? "w-64" : "w-20"
-      } bg-slate-800 transition-all duration-500 ease-in-out
+      className={`h-full px-2
+      ${isOpen ? "w-48" : "w-16"} 
+        bg-slate-800 transition-all duration-500 ease-in-out
     ${className} `}
     >
       <div>
@@ -27,30 +29,26 @@ function Sidebar({ className, isOpen, toggleSidebar, itemData }) {
         </div>
         
         {/* <nav className="mt-8 ring-1 ring-red-500"> */}
-        <ul className="mt-16 flex flex-col justify-center items-center">
+        <ul className="mt-4 flex flex-col justify-center items-center">
           {itemData.map((item) => (
             <li
               key={item.key}
-              className="px-2 py-2 mt-2 text-white
+              onClick={() => setSelectItem(item.key)}
+              className={`px-2 py-2 mt-1 text-white
                  hover:bg-white hover:text-slate-800 cursor-pointer
-                w-11/12 h-14 rounded-xl flex flex-row items-center
-                "
+                w-full h-10 rounded-xl flex flex-row items-center
+                ${selectItem === item.key ? "bg-white text-slate-800" : ""}
+                `}
             >
               <Link className="flex" key={item.key} to={item.link}>
-                <i className="w-12 h-12 flex items-center justify-center">
+                <i className="w-8 h-8 flex items-center justify-center">
                   {mergedIcon(item.icon)}
                 </i>
 
                 <span
-                  style={{
-                    "transitionProperty": "opacity,visibility",
-                    "transitionDuration": "300ms",
-                    "transitionTimingFunction": "linear",
-                  }}
                   className={`
-                    ${isOpen ? "visible" : "invisible"} 
                     ${isOpen ? "opacity-100" : "opacity-0"}
-                    ml-2 text-lg whitespace-nowrap 
+                    ml-2 text-sm whitespace-nowrap 
                     flex items-center
                     `}
                 >
