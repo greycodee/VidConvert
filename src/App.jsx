@@ -55,7 +55,7 @@ function App() {
     setIsOpen(!isOpen);
   };
   return (
-    <div className="bg-slate-200 w-screen h-screen flex flwx-row pt-14 sm:pt-0">
+    <div className="bg-slate-200 w-screen h-screen flex flwx-row pt-14 sm:pt-0 sm:flwx-col">
       <div
         className={`
       ${ffmpegLoading ? "" : "hidden"}
@@ -79,8 +79,10 @@ function App() {
         toggleSidebar={toggleSidebar}
         menuData={itemData}
       />
-
-      <Outlet context={[ffmpeg]} />
+      <div className="flex-1 overflow-scroll">
+        <Outlet context={[ffmpeg]} />
+      </div>
+      
     </div>
   );
 }
