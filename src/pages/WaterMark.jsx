@@ -58,8 +58,7 @@ function WaterMark() {
   }
 
   return (
-    <div className="flex bg-slate-300 h-screen">
-      <div className="h-screen w-screen sm:w-3/5 sm:h-5/6 sm:m-auto bg-white rounded-md p-5 ">
+      <div className="h-full w-full bg-white rounded-md p-5 ">
         <h1 className="text-center font-bold">Add watermark</h1>
         <div className="mt-2">
           <label
@@ -201,7 +200,6 @@ function WaterMark() {
           {log}
         </pre>
       </div>
-    </div>
   );
 }
 

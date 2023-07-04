@@ -14,7 +14,7 @@ const routeData = [
     element: <App />,
     children: [
       { 
-        path: "*", 
+        path: "/dashboard", 
         element: <Dashboard />,
 
       },
