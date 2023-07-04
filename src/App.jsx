@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import { useState, useEffect } from "react";
 import { createFFmpeg } from "@ffmpeg/ffmpeg";
 import Sidebar from "./components/Sidebar";
@@ -14,11 +16,9 @@ function App() {
   // console.log(location);
 
   useEffect(() => {
-    // eslint-disable-next-line no-undef
     if (crossOriginIsolated) {
       if (!ffmpeg.isLoaded()) {
         ffmpeg.load();
-        console.log("ffmpeg.wasm has been loaded");
         setFFmepgLoading(false);
       }
     } else {

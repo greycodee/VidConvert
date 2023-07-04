@@ -31,7 +31,7 @@ function Sidebar({ className, isOpen, toggleSidebar, itemData }) {
     <div
       className={`h-full px-2 text-white shadow-xl
       ${isOpen ? "w-36" : "w-12"} 
-        bg-slate-800 transition-all duration-500 ease-in-out
+        bg-slate-900 transition-all duration-500 ease-in-out
     ${className} `}
     >
       
@@ -47,8 +47,8 @@ function Sidebar({ className, isOpen, toggleSidebar, itemData }) {
                 navigate(item.link);
               }}
               className={`px-2 py-2 mt-1 
-                w-full h-8 rounded-xl flex flex-row
-                ${currRootPath === item.link ? "bg-white text-slate-800" : " hover:bg-white hover:text-slate-800 cursor-pointer"}
+                w-full h-8 rounded-xl flex flex-row cursor-pointer
+                ${currRootPath === item.link ? "bg-white text-slate-800" : " hover:bg-white hover:text-slate-800"}
                 `}
             >
               

@@ -2,7 +2,7 @@
 function TopBar({ className, isOpen, toggleSidebar }) {
   return (
     <div className={`${className} z-40 fixed top-0 left-0 right-0`}>
-      <div className={` bg-gray-800 text-gray-100 py-4 px-8 flex justify-between items-center`}>
+      <div className={` bg-gray-900 text-gray-100 py-4 px-8 flex justify-between items-center`}>
         <button
           className="text-white hover:text-gray-300 focus:outline-none focus:text-gray-300"
           onClick={toggleSidebar}
