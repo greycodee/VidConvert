@@ -5,6 +5,7 @@ import M3U8ToMP4 from "./pages/M3U8ToMP4.jsx";
 import WaterMark from "./pages/WaterMark.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Error from "./pages/Error.jsx";
+import TextFileInput from "./components/TextFileInput.jsx";
 import "./index.css";
 import { BrowserRouter, useRoutes } from "react-router-dom";
 
@@ -31,7 +32,10 @@ const routeData = [
       { 
         path: "*", 
         element: <Error />,
-
+      },
+      { 
+        path: "/text", 
+        element: <TextFileInput />,
       }
     ]
   }
