@@ -1,22 +1,24 @@
+/* eslint-disable no-undef */
+
 import { useState, useEffect } from "react";
 import { createFFmpeg } from "@ffmpeg/ffmpeg";
 import Sidebar from "./components/Sidebar";
 import TopBarMenu from "./components/TopBarMenu";
-import { Outlet } from "react-router-dom";
-import { DiStackoverflow,DiApple,DiAngularSimple } from "react-icons/di";
+import { Outlet} from "react-router-dom";
+import { DiStackoverflow,DiApple } from "react-icons/di";
 import { MdSpaceDashboard } from "react-icons/md";
 
 const ffmpeg = createFFmpeg({ log: true });
 
 function App() {
   const [ffmpegLoading, setFFmepgLoading] = useState(true);
+  // let location = useLocation();
+  // console.log(location);
 
   useEffect(() => {
-    // eslint-disable-next-line no-undef
     if (crossOriginIsolated) {
       if (!ffmpeg.isLoaded()) {
         ffmpeg.load();
-        console.log("ffmpeg.wasm has been loaded");
         setFFmepgLoading(false);
       }
     } else {
@@ -30,21 +32,21 @@ function App() {
       icon: <MdSpaceDashboard/>,
       title: "Dashboard",
       content: "dashboard",
-      link: "/dashboard",
+      link: "dashboard",
     },
     {
       key: 2,
       icon: <DiStackoverflow/>,
       title: "M3U8 to MP4",
       content: "content123",
-      link: "/m3u8tomp4",
+      link: "m3u8tomp4",
     },
     {
       key: 3,
       icon: <DiApple/>,
       title: "Add watermark",
       content: "watermark",
-      link: "/watermark",
+      link: "watermark",
     },
 
   ];
