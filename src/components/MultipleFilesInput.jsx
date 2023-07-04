@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-function MultipleFilesInput() {
+function MultipleFilesInput({onChange}) {
     const [fileCount, setFileCount] = useState(0);
   const fileInputRef = useRef(null);
   const handleUploadButtonClick = () => {
@@ -11,6 +11,7 @@ function MultipleFilesInput() {
     const file = event.target.files;
     setFileCount(file.length);
     console.log(file);
+    onChange(file);
   };
 
   return (

@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import { useState, useRef } from "react";
 
-function TextFileInput() {
+function TextFileInput({onChange}) {
   // const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
   const [textContent, setTextContent] = useState("");
@@ -16,6 +17,7 @@ function TextFileInput() {
       setTextContent(event.target.result);
     };
     reader.readAsText(file);
+    onChange(file);
   };
 
   const handleUploadButtonClick = () => {
@@ -36,7 +38,7 @@ function TextFileInput() {
         </button>
       </div>
       <span>选择的文件：{fileName}</span>
-      <pre className="text-white w-full bg-black flex-1 p-2 rounded-md overflow-scroll">
+      <pre className="text-xs text-white w-full bg-black flex-1 p-2 rounded-md overflow-scroll">
         {textContent}
       </pre>
     </div>
