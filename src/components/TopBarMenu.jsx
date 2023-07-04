@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {useState} from "react";
 import TopBar from "./TopBar";
 import { Link } from "react-router-dom";
@@ -16,7 +17,7 @@ function TopBarMenu({ className, menuData }) {
             <ul className={`z-30 fixed top-14 left-0 right-0 overflow-hidden bg-gray-700
             text-white divide-y
             ${isOpen ? "h-full" : "h-0"}
-            bg-sky-100 transition-all duration-100 ease-in-out`}>
+            transition-all duration-100 ease-in-out`}>
                 {menuData.map((item) => (
                     <li
                         key={item.key}

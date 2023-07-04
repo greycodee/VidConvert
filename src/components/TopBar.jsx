@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 function TopBar({ className, isOpen, toggleSidebar }) {
   return (
     <div className={`${className} z-40 fixed top-0 left-0 right-0`}>
