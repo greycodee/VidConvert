@@ -108,7 +108,7 @@ function M3U8ToMP4() {
   };
 
   return (
-    <div className="w-full h-max sm:h-full bg-white rounded-md grid grid-cols-1 gap-4 sm:grid-cols-3">
+    <div className="w-full h-max sm:h-full bg-white grid grid-cols-1 gap-4 sm:grid-cols-3">
       <div className="h-[400PX] sm:h-screen">
         <TextFileInput onChange={handleM3u8FileUpload} />
       </div>
@@ -133,7 +133,7 @@ function M3U8ToMP4() {
             Download
           </button>
         </div>
-        <pre ref={logRef} className="text-xs text-white w-full flex-1 bg-black p-2 rounded-md overflow-auto min-h-[350px]">
+        <pre ref={logRef} className="text-xs text-white w-full flex-1 bg-black p-2 rounded-md overflow-auto">
           {log}
         </pre>
       </div>

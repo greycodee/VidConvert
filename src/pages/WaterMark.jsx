@@ -58,7 +58,7 @@ function WaterMark() {
   }
 
   return (
-      <div className="h-full w-full bg-white rounded-md p-5 ">
+      <div className="h-max sm:h-full w-full bg-white rounded-md p-5 ">
         <h1 className="text-center font-bold">Add watermark</h1>
         <div className="mt-2">
           <label
