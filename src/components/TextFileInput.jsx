@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useRef } from "react";
 
-function TextFileInput({onChange}) {
+function TextFileInput({ onChange }) {
   // const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
   const [textContent, setTextContent] = useState("");
@@ -37,8 +37,8 @@ function TextFileInput({onChange}) {
           Upload
         </button>
       </div>
-      <span>选择的文件：{fileName}</span>
-      <pre className="text-xs text-white w-full bg-black flex-1 p-2 rounded-md overflow-scroll">
+      <span className="h-6 text-sm text-gray-500">选择的文件：{fileName}</span>
+      <pre className="flex-1 text-xs text-white w-full bg-black p-2 rounded-md overflow-auto min-h-[350px]">
         {textContent}
       </pre>
     </div>

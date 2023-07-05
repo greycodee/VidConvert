@@ -17,12 +17,10 @@ function M3U8ToMP4() {
   const logRef = useRef(null);
 
   useEffect(() => {
-
     ffmpeg.setLogger(({ type, message }) => {
       setLog((prevLog) => prevLog + `[${type}] ${message}\n`);
       logRef.current.scrollTop = logRef.current.scrollHeight;
     });
-
   }, []);
 
   const handleM3u8FileUpload = async (file) => {
@@ -31,7 +29,6 @@ function M3U8ToMP4() {
     const updatedM3u8Data = parseM3u8File(m3u8String);
     ffmpeg.FS("writeFile", "input.m3u8", updatedM3u8Data);
   };
-
 
   const handleTSFileUpload = async (file) => {
     for (let i = 0; i < file.length; i++) {
@@ -48,10 +45,8 @@ function M3U8ToMP4() {
 
   const convertFile = async () => {
     try {
-
       setLog((prevLog) => prevLog + "[info] read the input files...\n");
       setConvertDisBtnEnable(true);
-
 
       // Read the input ts files
       for (let i = 0; i < tsFiles.length; i++) {
@@ -59,7 +54,6 @@ function M3U8ToMP4() {
         const fileName = tsFiles[i].name;
         const tsData = await fetchFile(tsFiles[i]);
         if (fileName.includes("key")) {
-         
           ffmpeg.FS("writeFile", `key`, tsData);
         } else {
           ffmpeg.FS("writeFile", `input${i}.ts`, tsData);
@@ -114,36 +108,37 @@ function M3U8ToMP4() {
   };
 
   return (
-    <div className=" bg-slate-300 h-full w-full">
-      <div className="h-full w-full  bg-white rounded-md p-5 flex flex-col sm:flex-row">
-        
+    <div className="w-full h-max sm:h-full bg-white rounded-md grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="h-[400PX] sm:h-screen">
         <TextFileInput onChange={handleM3u8FileUpload} />
+      </div>
+      <div>
         <MultipleFilesInput onChange={handleTSFileUpload} />
-        <div className="flex-row center text-center mt-2 mb-2">
+      </div>
+      <div>
+      <div className="flex flex-col h-[400PX] sm:h-screen p-2">
+        <div className="flex flex-row py-2">
           <button
-            className="bg-sky-400 m-1 text-white rounded-md w-24 h-10 text-sm disabled:bg-sky-200 hover:bg-sky-500"
+            className="btn"
             onClick={convertFile}
             disabled={convertBtnDisEnable}
           >
             Convert
           </button>
           <button
-            className="bg-sky-400 m-1 text-white rounded-md w-24 h-10 text-sm disabled:bg-sky-200 hover:bg-sky-500"
+            className="btn"
             onClick={handleDownload}
             disabled={downLoadBtnDisEnable}
           >
             Download
           </button>
         </div>
-        
-          <pre
-            ref={logRef}
-            className="overflow-auto basis-full min-h-[300px] bg-black text-white rounded-sm text-xs p-2"
-          >
-            {log}
-          </pre>
-      
+        <pre ref={logRef} className="text-xs text-white w-full flex-1 bg-black p-2 rounded-md overflow-auto min-h-[350px]">
+          {log}
+        </pre>
       </div>
+      </div>
+      
     </div>
   );
 }
