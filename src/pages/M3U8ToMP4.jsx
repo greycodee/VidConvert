@@ -109,14 +109,14 @@ function M3U8ToMP4() {
 
   return (
     <div className="w-full h-max sm:h-full bg-white grid grid-cols-1 gap-4 sm:grid-cols-3">
-      <div className="h-[400PX] sm:h-screen">
+      <div className="h-[400PX] sm:h-full">
         <TextFileInput onChange={handleM3u8FileUpload} />
       </div>
       <div>
         <MultipleFilesInput onChange={handleTSFileUpload} />
       </div>
       <div>
-      <div className="flex flex-col h-[400PX] sm:h-screen p-2">
+      <div className="flex flex-col h-[400PX] sm:h-full p-2">
         <div className="flex flex-row py-2">
           <button
             className="btn"

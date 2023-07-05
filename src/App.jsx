@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import { createFFmpeg } from "@ffmpeg/ffmpeg";
 import Sidebar from "./components/Sidebar";
 import TopBarMenu from "./components/TopBarMenu";
-import { Outlet} from "react-router-dom";
-import { DiStackoverflow,DiApple } from "react-icons/di";
+import Header from "./components/Header";
+import { Outlet } from "react-router-dom";
+import { DiStackoverflow, DiApple } from "react-icons/di";
 import { MdSpaceDashboard } from "react-icons/md";
 
 const ffmpeg = createFFmpeg({ log: true });
@@ -29,26 +30,25 @@ function App() {
   const itemData = [
     {
       key: 1,
-      icon: <MdSpaceDashboard/>,
+      icon: <MdSpaceDashboard />,
       title: "Dashboard",
       content: "dashboard",
       link: "dashboard",
     },
     {
       key: 2,
-      icon: <DiStackoverflow/>,
+      icon: <DiStackoverflow />,
       title: "M3U8 to MP4",
       content: "content123",
       link: "m3u8tomp4",
     },
     {
       key: 3,
-      icon: <DiApple/>,
+      icon: <DiApple />,
       title: "Add watermark",
       content: "watermark",
       link: "watermark",
     },
-
   ];
 
   const [isOpen, setIsOpen] = useState(false);
@@ -68,10 +68,10 @@ function App() {
       >
         <p className="text-white">Your browser not support</p>
       </div>
+
       <Sidebar
         className="hidden sm:block"
         isOpen={isOpen}
-        toggleSidebar={toggleSidebar}
         itemData={itemData}
       />
 
@@ -81,10 +81,16 @@ function App() {
         toggleSidebar={toggleSidebar}
         menuData={itemData}
       />
-      <div className="flex-1 overflow-auto">
-        <Outlet context={[ffmpeg]} />
+
+      <div className="flex-1 h-full flex flex-col">
+        <Header className="hidden sm:block" 
+        toggleSidebar={toggleSidebar} 
+        isOpen={isOpen}
+        />
+        <div className="overflow-auto flex-1">
+          <Outlet context={[ffmpeg]} />
+        </div>
       </div>
-      
     </div>
   );
 }
