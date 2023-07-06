@@ -38,7 +38,7 @@ function TextFileInput({ onChange }) {
         </button>
       </div>
       <span className="h-6 text-sm text-gray-500">选择的文件：{fileName}</span>
-      <pre className="flex-1 text-xs text-white w-full bg-black p-2 rounded-md overflow-auto min-h-[350px]">
+      <pre className="flex-1 text-xs text-white w-full bg-black p-2 rounded-md overflow-auto">
         {textContent}
       </pre>
     </div>
