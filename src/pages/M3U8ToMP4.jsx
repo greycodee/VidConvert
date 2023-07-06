@@ -108,7 +108,7 @@ function M3U8ToMP4() {
   };
 
   return (
-    <div className="flex flex-col bg-white w-full h-max sm:h-full">
+    <div className="flex flex-col bg-white w-full h-max sm:h-full min-h-[600px]">
 
     <p className="text-2xl text-center p-8 font-bold ">M3U8 to MP4</p>
     <div className="flex-1 h-0 w-full flex sm:flex-row flex-col">
