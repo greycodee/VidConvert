@@ -82,12 +82,12 @@ function App() {
         menuData={itemData}
       />
 
-      <div className="flex-1 h-full flex flex-col">
+      <div className="flex-1 w-0 h-full flex flex-col">
         <Header className="hidden sm:block" 
         toggleSidebar={toggleSidebar} 
         isOpen={isOpen}
         />
-        <div className="overflow-auto flex-1">
+        <div className="overflow-auto flex-1 h-0">
           <Outlet context={[ffmpeg]} />
         </div>
       </div>
