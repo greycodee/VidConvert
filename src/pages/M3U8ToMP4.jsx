@@ -108,16 +108,19 @@ function M3U8ToMP4() {
   };
 
   return (
-    <div className="w-full h-max sm:h-full bg-white grid grid-cols-1 gap-4 sm:grid-cols-3">
-      <div className="h-[400PX] sm:h-screen">
+    <div className="flex flex-col bg-white w-full h-max sm:h-full">
+
+    <p className="text-2xl text-center p-8 font-bold ">M3U8 to MP4</p>
+    <div className="flex-1 h-0 w-full flex sm:flex-row flex-col">
+      <div className="h-[400PX] sm:h-full  sm:flex-1 sm:w-0">
         <TextFileInput onChange={handleM3u8FileUpload} />
       </div>
-      <div>
+      <div className="sm:flex-1 sm:w-0">
         <MultipleFilesInput onChange={handleTSFileUpload} />
       </div>
-      <div>
-      <div className="flex flex-col h-[400PX] sm:h-screen p-2">
-        <div className="flex flex-row py-2">
+
+      <div className="flex flex-col h-[400PX] sm:h-full p-2 sm:flex-1 sm:w-0">
+        <div className="grid grid-cols-2 gap-1">
           <button
             className="btn"
             onClick={convertFile}
@@ -133,13 +136,14 @@ function M3U8ToMP4() {
             Download
           </button>
         </div>
-        <pre ref={logRef} className="text-xs text-white w-full flex-1 bg-black p-2 rounded-md overflow-auto">
+        <pre ref={logRef} className="mt-2 text-xs text-white w-full flex-1 bg-black p-2 rounded-md overflow-auto">
           {log}
         </pre>
       </div>
       </div>
       
     </div>
+
   );
 }
 
