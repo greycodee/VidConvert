@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import {GrView} from "react-icons/gr";
 Image.propTypes = {
   //   onChange: PropTypes.func.isRequired,
   src: PropTypes.string.isRequired,
@@ -9,6 +10,7 @@ Image.propTypes = {
 function Image(props) {
   const { src="", fallback } = props;
   const imgRef = useRef(null);
+  const [view, setView] = useState(false);
 
   const handleImageError = () => {
     console.log(fallback);
@@ -20,8 +22,30 @@ function Image(props) {
     }
   };
 
+  const viewBoxClick = () => {
+    setView(!view);
+  }
+
   return (
-    <div className="w-full h-full ring-1 ring-sky-300">
+    <div className="w-full h-full ring-1 ring-sky-300 relative">
+      <div 
+      onClick={viewBoxClick}
+      className="flex items-center justify-center cursor-pointer absolute w-full h-full bg-sky-300 top-0 opacity-0 hover:opacity-50 text-xs">
+        <div className="flex flex-row gap-1">
+          <GrView />
+          <span className="leading-none">view</span>
+        </div>
+      </div>
+
+      <div onClick={viewBoxClick} className={`${view ? "block":"hidden"} fixed top-0 right-0 bg-stone-400/[.9] h-screen w-screen`}>
+        <img
+          className=" w-full h-full object-contain "
+          ref={imgRef}
+          src={src}
+          alt="error"
+          onError={handleImageError}
+        />
+      </div>
       <img
         className="w-full h-full object-contain"
         ref={imgRef}
