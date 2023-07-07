@@ -4,11 +4,12 @@ function Chat(){
     const liEndRef = useRef(null);
     const [messages, setMessages] = useState([]);
 
-    const addMessage = () => {
+    const addMessage = (position) => {
         const newMessage = {
             id: messages.length,
             name: "name",
-            message: "message"+messages.length
+            message: "message"+messages.length,
+            position: position
         };
         setMessages([...messages, newMessage]);
         // ulRef.current.scrollTop  = ulRef.current.scrollHeight;
@@ -24,12 +25,13 @@ function Chat(){
     return (
         <div>
             <h1>Chat</h1>
-            <button className="btn" onClick={addMessage}>add </button>
+            <button className="btn" onClick={()=>addMessage("ltr")}>add left </button>
+            <button className="btn" onClick={()=>addMessage("rtl")}>add right</button>
             <div className="bg-slate-300 w-72 h-96 overflow-auto">
                 <ul ref={ulRef}>
                     {messages.map((message) => (
-                        <li key={message.id}>
-                            <div className="flex flex-row">
+                        <li key={message.id} className={`${message.position === "ltr" ? "flex-row":"flex-row-reverse"} flex `}>
+                            <div className="flex flex-row bg-fuchsia-50">
                                 <div className="flex flex-col">
                                     <p className="text-xs">{message.name}</p>
                                     <p className="text-xs">{message.message}</p>
