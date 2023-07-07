@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRef } from "react";
 
 import Progress from "../components/Progress";
-import ImageUpload from "../components/ImageUpload";
+// import ImageUpload from "../components/ImageUpload";
 import VideoUpload from "../components/VideoUpload";
 
 function Dashboard(){

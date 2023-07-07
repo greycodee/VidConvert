@@ -1,4 +1,4 @@
-import { BsCloudUpload } from "react-icons/bs";
+import { BsCardImage } from "react-icons/bs";
 import { useRef } from "react";
 import PropTypes from "prop-types";
 
@@ -38,7 +38,7 @@ function ImageUpload(props) {
           file === null ? "" : "hidden"
         } w-full h-full flex flex-col items-center justify-center`}
       >
-        <BsCloudUpload className="w-1/5 h-1/5 stroke-0" />
+        <BsCardImage className="w-1/5 h-1/5 stroke-0" />
         <p className="text-center">Click to upload or drag and drop</p>
       </div>
 
