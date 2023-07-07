@@ -1,6 +1,12 @@
 import { useState, useRef } from "react";
+import PropTypes from 'prop-types';
 
-function MultipleFilesInput({onChange}) {
+MultipleFilesInput.propTypes = {
+  onChange: PropTypes.func.isRequired,
+};
+
+function MultipleFilesInput(props) {
+  const {onChange} = props;
     const [fileCount, setFileCount] = useState(0);
   const fileInputRef = useRef(null);
   const handleUploadButtonClick = () => {

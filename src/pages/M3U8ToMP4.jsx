@@ -136,7 +136,7 @@ function M3U8ToMP4() {
             Download
           </button>
         </div>
-        <pre ref={logRef} className="mt-2 text-xs text-white w-full flex-1 bg-black p-2 rounded-md overflow-auto">
+        <pre ref={logRef} className="mt-2 text-xs text-white w-full flex-1 h-0 bg-black p-2 rounded-md overflow-auto">
           {log}
         </pre>
       </div>

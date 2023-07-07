@@ -1,5 +1,13 @@
-/* eslint-disable react/prop-types */
-function TopBar({ className, isOpen, toggleSidebar }) {
+import PropTypes from 'prop-types';
+
+TopBar.propTypes = {
+  className: PropTypes.string,
+  isOpen: PropTypes.bool.isRequired,
+  toggleSidebar: PropTypes.func.isRequired,
+};
+
+function TopBar(props) {
+  const { className, isOpen, toggleSidebar } = props;
   return (
     <div className={`${className} z-40 fixed top-0 left-0 right-0`}>
       <div className={` bg-gray-900 text-gray-100 py-4 px-8 flex justify-between items-center`}>

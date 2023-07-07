@@ -87,9 +87,9 @@ function App() {
         toggleSidebar={toggleSidebar} 
         isOpen={isOpen}
         />
-        <div className="overflow-auto flex-1 h-0">
+        <main className="overflow-auto flex-1 h-0">
           <Outlet context={[ffmpeg]} />
-        </div>
+        </main>
       </div>
     </div>
   );

@@ -1,10 +1,19 @@
-/* eslint-disable react/prop-types */
 import {useState} from "react";
 import TopBar from "./TopBar";
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-function TopBarMenu({ className, menuData }) {
+TopBarMenu.propTypes = {
+    className: PropTypes.string,
+    menuData: PropTypes.arrayOf(PropTypes.shape({
+        key: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        link: PropTypes.string.isRequired,
+    })).isRequired,
+};
 
+function TopBarMenu(props) {
+    const { className, menuData } = props;
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleSidebar = () => {
