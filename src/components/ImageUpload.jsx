@@ -2,12 +2,12 @@ import { BsCloudUpload } from "react-icons/bs";
 import { useRef } from "react";
 import PropTypes from "prop-types";
 
-ImgInput.propTypes = {
+ImageUpload.propTypes = {
   onChange: PropTypes.func.isRequired,
   file: PropTypes.object,
 };
 
-function ImgInput(props) {
+function ImageUpload(props) {
   const { onChange, file } = props;
   const inputRef = useRef(null);
 
@@ -17,12 +17,13 @@ function ImgInput(props) {
 
   return (
     <div
-      className="h-full w-full 
+      className={`h-full w-full 
         border-dashed border-2 
+        ${file === null ? "" : "border-none"}
         border-gray-500 text-gray-500
         hover:border-sky-400 hover:text-sky-400 text-sm font-sans font-light
         flex flex-col items-center justify-center 
-        "
+        `}
       onClick={onClick}
     >
       <input
@@ -48,4 +49,4 @@ function ImgInput(props) {
     </div>
   );
 }
-export default ImgInput;
+export default ImageUpload;

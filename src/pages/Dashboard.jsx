@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { useRef } from "react";
 
 import Progress from "../components/Progress";
-import ImgInput from "../components/ImgInput";
+import ImageUpload from "../components/ImageUpload";
+import VideoUpload from "../components/VideoUpload";
 
 function Dashboard(){
     const [ffmpeg] = useOutletContext();
@@ -34,8 +35,11 @@ function Dashboard(){
             <div className="w-96">
                 <Progress progress={200}/>
             </div>
+            {/* <div className="w-96 h-96 mt-8">
+                <ImageUpload file={img} onChange={handlerUploadImage}/>
+            </div> */}
             <div className="w-96 h-96 mt-8">
-                <ImgInput file={img} onChange={handlerUploadImage}/>
+                <VideoUpload file={img} onChange={handlerUploadImage}/>
             </div>
             <button className="btn" onClick={onClick}>test</button>
             <pre ref={logRef} className="w-96 h-96 bg-black rounded-md overflow-auto text-white text-xs">{log}</pre>

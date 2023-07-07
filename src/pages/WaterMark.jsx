@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchFile } from "@ffmpeg/ffmpeg";
 import { useOutletContext } from "react-router-dom";
+import ImageUpload from "../components/ImageUpload";
+
 
 function WaterMark() {
   const [ffmpeg] = useOutletContext();
@@ -10,6 +12,13 @@ function WaterMark() {
   const [watermarkName, setWatermarkName] = useState("");
   const [viderFirstFrame, setVideoFirstFrame] = useState(null);
   const [previewImage,setPreviewImage] = useState(null);
+
+  const [img, setImg] = useState(null);
+
+    const handlerUploadImage = (event) => {
+        const file = event.target.files[0];
+        setImg(file);
+    }
 
 
   const [log, setLog] = useState("");
@@ -95,41 +104,10 @@ function WaterMark() {
             src={videoFile && URL.createObjectURL(videoFile)}
           />
         </div>
-        <div className="mt-2">
-          <label
-            htmlFor="watermarkFile"
-            className="block text-sm font-medium leading-6 text-gray-900"
-          >
-            Choose the watermark file:
-          </label>
-          <div className="relative mt-2 rounded-md shadow-sm">
-            <input
-              type="file"
-              name="watermarkFile"
-              id="watermarkFile"
-              className="block 
-            w-full 
-            rounded-md 
-            border-0 
-            text-gray-900 
-            ring-1 
-            ring-inset 
-            ring-gray-300 
-            placeholder:text-gray-400 
-            focus:ring-2 focus:ring-inset
-            sm:text-sm sm:leading-6
-            file:border-none
-            file:w-32 file:h-10 file:bg-sky-400 file:text-white
-            "
-              onChange={watermarkFileChangeHandler}
-            />
-          </div>
-          <img
-            src={watermarkFile && URL.createObjectURL(watermarkFile)}
-            alt="logo"
-            width="200"
-          />
+        <div className="h-32 w-32">
+          <ImageUpload onChange={handlerUploadImage} file={img}/>
         </div>
+        
         <div className="mt-2">
           <label
             htmlFor="watermarkFile"
