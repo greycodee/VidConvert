@@ -5,6 +5,7 @@ import M3U8ToMP4 from "./pages/M3U8ToMP4.jsx";
 import WaterMark from "./pages/WaterMark.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Error from "./pages/Error.jsx";
+import Chat from "./pages/Chat.jsx";
 import "./index.css";
 import { BrowserRouter, useRoutes } from "react-router-dom";
 
@@ -15,18 +16,22 @@ const routeData = [
     element: <App />,
     children: [
       { 
-        path: "/dashboard", 
+        path: "dashboard", 
         element: <Dashboard />,
 
       },
       { 
-        path: "/m3u8tomp4", 
+        path: "m3u8tomp4", 
         element: <M3U8ToMP4 />
       }
       ,
       { 
-        path: "/watermark", 
+        path: "watermark", 
         element: <WaterMark />
+      },
+      { 
+        path: "chat", 
+        element: <Chat />
       },
       { 
         path: "*", 

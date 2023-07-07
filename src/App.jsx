@@ -7,6 +7,7 @@ import TopBarMenu from "./components/TopBarMenu";
 import Header from "./components/Header";
 import { Outlet } from "react-router-dom";
 import { DiStackoverflow, DiApple } from "react-icons/di";
+import {BsFillChatDotsFill} from "react-icons/bs";
 import { MdSpaceDashboard } from "react-icons/md";
 
 const ffmpeg = createFFmpeg({ log: true });
@@ -48,6 +49,13 @@ function App() {
       title: "Add watermark",
       content: "watermark",
       link: "watermark",
+    },
+    {
+      key: 4,
+      icon: <BsFillChatDotsFill />,
+      title: "Chat",
+      content: "chat",
+      link: "chat",
     },
   ];
 
