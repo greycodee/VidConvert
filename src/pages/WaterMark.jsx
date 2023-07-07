@@ -65,11 +65,11 @@ function WaterMark() {
   return (
       <div className="h-max sm:h-full w-full bg-white rounded-md p-5 ">
         <h1 className="text-center font-bold">Add watermark</h1>
-        <div className="h-32 w-32">
+        <div className="h-64 w-full sm:w-64">
           <VideoUpload onChange={videoFileChangeHandler} file={videoFile}/>
         </div>
         
-        <div className="h-32 w-32">
+        <div className="h-64 w-full sm:w-64">
           <ImageUpload onChange={watermarkFileChangeHandler} file={watermarkFile}/>
         </div>
         
@@ -116,7 +116,7 @@ function WaterMark() {
           >
             Preview
           </button>
-          <div className="h-32 w-32">
+          <div className="h-64 w-full sm:w-64">
             <Image src={previewImage === null ? "":URL.createObjectURL(previewImage)}/>
           </div>
         </div>
