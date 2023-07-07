@@ -2,6 +2,8 @@ import { useOutletContext } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
 
+import Progress from "../components/Progress";
+
 function Dashboard(){
     const [ffmpeg] = useOutletContext();
     const [log, setLog] = useState("");
@@ -21,6 +23,9 @@ function Dashboard(){
     return(
         <div>
             <h1>Dashboard</h1>
+            <div className="w-96">
+                <Progress progress={200}/>
+            </div>
             <button className="btn" onClick={onClick}>test</button>
             <pre ref={logRef} className="w-96 h-96 bg-black rounded-md overflow-auto text-white text-xs">{log}</pre>
         </div>

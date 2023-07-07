@@ -33,16 +33,8 @@ const routeData = [
       { 
         path: "*", 
         element: <Error />,
-      },
-      { 
-        path: "/text", 
-        element: <TextFileInput />,
       }
-      ,
-      { 
-        path: "/multiple", 
-        element: <MultipleFilesInput />,
-      }
+
     ]
   }
 

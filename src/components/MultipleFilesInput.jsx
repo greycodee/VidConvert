@@ -7,7 +7,7 @@ MultipleFilesInput.propTypes = {
 
 function MultipleFilesInput(props) {
   const {onChange} = props;
-    const [fileCount, setFileCount] = useState(0);
+  const [fileCount, setFileCount] = useState(0);
   const fileInputRef = useRef(null);
   const handleUploadButtonClick = () => {
     fileInputRef.current.click();
