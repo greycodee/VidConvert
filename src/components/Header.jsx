@@ -1,8 +1,21 @@
 import { BiMenu } from "react-icons/bi";
+import PropTypes from 'prop-types';
 
-function Header({ className ,toggleSidebar,isOpen}) {
+Header.propTypes = {
+  className: PropTypes.string,
+  toggleSidebar: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+};
+
+function Header(props) {
+  const { 
+    className ,
+    toggleSidebar,
+    isOpen
+  } = props;
+
   return (
-    <div className={`h-12 ${className} text-gray-900`}>
+    <header className={`h-12 ${className} text-gray-900`}>
       <div
         style={{
           height: "inherit",
@@ -22,8 +35,10 @@ function Header({ className ,toggleSidebar,isOpen}) {
         
       </div>
       <div className="h-full"></div>
-    </div>
+    </header>
   );
 }
+
+
 
 export default Header;

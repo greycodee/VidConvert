@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchFile } from "@ffmpeg/ffmpeg";
 import { useOutletContext } from "react-router-dom";
+import ImageUpload from "../components/ImageUpload";
+import VideoUpload from "../components/VideoUpload";
+import Image from "../components/Image";
+
 
 function WaterMark() {
   const [ffmpeg] = useOutletContext();
@@ -10,6 +14,7 @@ function WaterMark() {
   const [watermarkName, setWatermarkName] = useState("");
   const [viderFirstFrame, setVideoFirstFrame] = useState(null);
   const [previewImage,setPreviewImage] = useState(null);
+
 
 
   const [log, setLog] = useState("");
@@ -60,76 +65,14 @@ function WaterMark() {
   return (
       <div className="h-max sm:h-full w-full bg-white rounded-md p-5 ">
         <h1 className="text-center font-bold">Add watermark</h1>
-        <div className="mt-2">
-          <label
-            htmlFor="videoFile"
-            className="block text-sm font-medium leading-6 text-gray-900"
-          >
-            Choose the Video file:
-          </label>
-          <div className="relative mt-2 rounded-md shadow-sm">
-            <input
-              type="file"
-              name="videoFile"
-              id="videoFile"
-              className="block 
-            w-full 
-            rounded-md 
-            border-0 
-            text-gray-900 
-            ring-1 
-            ring-inset 
-            ring-gray-300 
-            placeholder:text-gray-400 
-            focus:ring-2 focus:ring-inset
-            sm:text-sm sm:leading-6
-            file:border-none
-            file:w-32 file:h-10 file:bg-sky-400 file:text-white
-            "
-              onChange={videoFileChangeHandler}
-            />
-          </div>
-          <video
-            controls
-            width="450"
-            src={videoFile && URL.createObjectURL(videoFile)}
-          />
+        <div className="h-64 w-full sm:w-64">
+          <VideoUpload onChange={videoFileChangeHandler} file={videoFile}/>
         </div>
-        <div className="mt-2">
-          <label
-            htmlFor="watermarkFile"
-            className="block text-sm font-medium leading-6 text-gray-900"
-          >
-            Choose the watermark file:
-          </label>
-          <div className="relative mt-2 rounded-md shadow-sm">
-            <input
-              type="file"
-              name="watermarkFile"
-              id="watermarkFile"
-              className="block 
-            w-full 
-            rounded-md 
-            border-0 
-            text-gray-900 
-            ring-1 
-            ring-inset 
-            ring-gray-300 
-            placeholder:text-gray-400 
-            focus:ring-2 focus:ring-inset
-            sm:text-sm sm:leading-6
-            file:border-none
-            file:w-32 file:h-10 file:bg-sky-400 file:text-white
-            "
-              onChange={watermarkFileChangeHandler}
-            />
-          </div>
-          <img
-            src={watermarkFile && URL.createObjectURL(watermarkFile)}
-            alt="logo"
-            width="200"
-          />
+        
+        <div className="h-64 w-full sm:w-64">
+          <ImageUpload onChange={watermarkFileChangeHandler} file={watermarkFile}/>
         </div>
+        
         <div className="mt-2">
           <label
             htmlFor="watermarkFile"
@@ -173,7 +116,9 @@ function WaterMark() {
           >
             Preview
           </button>
-          <img src={previewImage && URL.createObjectURL(previewImage)} alt="logo" width="400" />
+          <div className="h-64 w-full sm:w-64">
+            <Image src={previewImage === null ? "":URL.createObjectURL(previewImage)}/>
+          </div>
         </div>
 
         <div className="flex-row center text-center mt-2 mb-2">

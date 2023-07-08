@@ -1,8 +1,26 @@
-/* eslint-disable react/prop-types */
+
 import { cloneElement, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-function Sidebar({ className, isOpen, itemData }) {
+Sidebar.propTypes = {
+  className: PropTypes.string,
+  isOpen: PropTypes.bool.isRequired,
+  itemData: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.number.isRequired,
+    icon: PropTypes.element.isRequired,
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
+  })).isRequired,
+};
+
+function Sidebar(props) {
+  const { 
+    className, 
+    isOpen, 
+    itemData 
+  } = props;
   const iconStyle = {
     width: "24px",
     height: "24px",

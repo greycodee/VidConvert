@@ -1,7 +1,12 @@
-/* eslint-disable react/prop-types */
 import { useState, useRef } from "react";
+import PropTypes from 'prop-types';
 
-function TextFileInput({ onChange }) {
+TextFileInput.propTypes = {
+  onChange: PropTypes.func.isRequired,
+};
+
+function TextFileInput(props) {
+  const { onChange } = props;
   // const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
   const [textContent, setTextContent] = useState("");
